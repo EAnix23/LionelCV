@@ -3,151 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lionel Sabaulan | Portfolio</title>
+    <title>Lionel Sabaulan | Executive Assistant & Operations</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
         :root {
-            --primary-orange: #ff6b00;
-            --dark-bg: #000000;
-            --card-bg: #111111;
-            --border-color: rgba(255, 255, 255, 0.08);
+            --gold: #C9A227;
+            --gold-bright: #E8C766;
+            --obsidian: #0B0A08;
+            --card: #16140F;
+            --ivory: #F5F1E8;
+            --warm-gray: #9C9488;
+            --border-gold: rgba(201, 162, 39, 0.16);
+            --emerald: #3FBF7F;
         }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--dark-bg);
-            color: #ffffff;
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--obsidian);
+            color: var(--ivory);
             margin: 0;
             padding: 0;
             overflow-x: hidden;
         }
+        ::-webkit-scrollbar { display: none; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
 
-        ::-webkit-scrollbar {
-            display: none;
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+        .gold-text { color: var(--gold); }
+        .gold-gradient-text {
+            background: linear-gradient(120deg, var(--gold-bright), var(--gold) 60%, #8a6d1a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
-        * {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
 
-        .orange-text { color: var(--primary-orange); }
-
-        /* Desktop Layout */
         @media (min-width: 1024px) {
-            .main-wrapper {
-                height: 100vh;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-            }
-            
-            .centered-container {
-                width: 100%;
-                max-width: 1440px;
-                margin: 0 auto;
-                flex: 1;
-                display: flex;
-                flex-direction: column;
-                overflow: hidden;
-            }
-
-            .content-grid {
-                flex: 1;
-                display: grid;
-                grid-template-columns: 380px 1fr;
-                gap: 5rem;
-                overflow: hidden;
-                padding: 0 5% 2rem 5%;
-            }
-            
-            .left-panel {
-                height: 100%;
-                display: flex;
-                align-items: flex-start;
-                padding-top: 1rem;
-            }
-            
-            .right-panel {
-                height: 100%;
-                overflow-y: auto;
-                padding-right: 2rem;
-                scroll-behavior: smooth;
-            }
+            .main-wrapper { height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+            .centered-container { width: 100%; max-width: 1440px; margin: 0 auto; flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+            .content-grid { flex: 1; display: grid; grid-template-columns: 380px 1fr; gap: 5rem; overflow: hidden; padding: 0 5% 2rem 5%; }
+            .left-panel { height: 100%; display: flex; align-items: flex-start; padding-top: 1rem; }
+            .right-panel { height: 100%; overflow-y: auto; padding-right: 2rem; scroll-behavior: smooth; }
         }
-
-        /* Mobile Layout */
         @media (max-width: 1023px) {
-            .content-grid {
-                display: flex;
-                flex-direction: column;
-                padding: 1.5rem;
-                gap: 2.5rem;
-            }
+            .content-grid { display: flex; flex-direction: column; padding: 1.5rem; gap: 2.5rem; }
             .left-panel { width: 100%; }
             .right-panel { width: 100%; }
         }
 
         .profile-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
+            background-color: var(--card);
+            border: 1px solid var(--border-gold);
             border-radius: 32px;
             padding: 1.5rem;
             text-align: center;
             width: 100%;
+            position: relative;
+            overflow: hidden;
         }
-
+        .profile-glow {
+            position: absolute;
+            top: -60px;
+            right: -60px;
+            width: 220px;
+            height: 220px;
+            background: radial-gradient(circle, rgba(201,162,39,0.18), transparent 70%);
+            pointer-events: none;
+        }
         .profile-img-container {
             width: 100%;
             aspect-ratio: 1/1.1;
             border-radius: 24px;
             overflow: hidden;
             margin-bottom: 1.5rem;
-            background: #1a1a1a;
+            background: #1a1712;
+            position: relative;
         }
-
-        .profile-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .profile-img { width: 100%; height: 100%; object-fit: cover; }
 
         .form-control {
-            background: #111111;
-            border: 1px solid var(--border-color);
+            background: var(--card);
+            border: 1px solid var(--border-gold);
             border-radius: 12px;
             padding: 1rem;
             width: 100%;
-            color: white;
+            color: var(--ivory);
             outline: none;
             transition: all 0.3s;
         }
-
-        .form-control:focus {
-            border-color: var(--primary-orange);
-        }
+        .form-control::placeholder { color: var(--warm-gray); }
+        .form-control:focus { border-color: var(--gold); }
 
         .info-card {
-            background: #111111;
-            border: 1px solid var(--border-color);
+            background: var(--card);
+            border: 1px solid var(--border-gold);
             border-radius: 20px;
             padding: 1.5rem;
             transition: all 0.3s ease;
         }
+        .info-card:hover { border-color: var(--gold); transform: translateY(-2px); }
 
-        .info-card:hover {
-            border-color: var(--primary-orange);
-            background: rgba(255, 107, 0, 0.03);
-            transform: translateY(-2px);
-        }
-
-        /* Carousel Styles */
         .carousel-container {
             position: relative;
             width: 100%;
@@ -158,149 +115,104 @@
             padding-bottom: 20px;
             -webkit-overflow-scrolling: touch;
         }
-        
-        .carousel-slide {
-            flex: 0 0 85%;
-            scroll-snap-align: start;
-        }
-        
-        @media (min-width: 768px) {
-            .carousel-slide {
-                flex: 0 0 calc(50% - 0.75rem);
-            }
-        }
+        .carousel-slide { flex: 0 0 85%; scroll-snap-align: start; }
+        @media (min-width: 768px) { .carousel-slide { flex: 0 0 calc(45% - 0.75rem); } }
 
         .project-card {
-            background: #111111;
-            border: 1px solid var(--border-color);
+            background: var(--card);
+            border: 1px solid var(--border-gold);
             border-radius: 20px;
-            overflow: hidden;
+            padding: 1.75rem;
             height: 100%;
             transition: all 0.3s ease;
             position: relative;
         }
-
-        .project-card:hover {
-            border-color: var(--primary-orange);
-        }
-
-        .project-number {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(255, 107, 0, 0.9);
-            color: white;
+        .project-card:hover { border-color: var(--gold); }
+        .project-tag {
+            display: inline-block;
             font-size: 10px;
             font-weight: 800;
+            letter-spacing: 0.12em;
+            color: var(--gold);
+            background: rgba(201, 162, 39, 0.1);
+            border: 1px solid var(--border-gold);
             padding: 4px 10px;
-            border-radius: 10px;
-            z-index: 10;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .project-img {
-            width: 100%;
-            height: 180px;
-            background: #1a1a1a;
-            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 1rem;
         }
 
         .contact-icon-box {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 107, 0, 0.08);
-            color: var(--primary-orange);
+            width: 50px; height: 50px;
+            background: rgba(201, 162, 39, 0.08);
+            color: var(--gold);
             border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; flex-shrink: 0;
             transition: all 0.3s;
         }
+        .info-card:hover .contact-icon-box { background: var(--gold); color: #0B0A08; }
 
-        .info-card:hover .contact-icon-box {
-            background: var(--primary-orange);
-            color: white;
-        }
+        .typing-text::after { content: "|"; animation: blink 0.7s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .typing-text::after {
-            content: "|";
-            animation: blink 0.7s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .btn-orange {
-            background-color: var(--primary-orange);
-            color: #fff;
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+            color: #0B0A08;
             padding: 0.75rem 1.25rem;
             border-radius: 12px;
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
             flex: 1;
             transition: all 0.2s;
         }
+        .btn-gold:hover { filter: brightness(1.08); transform: scale(1.02); }
 
-        .btn-orange:hover { filter: brightness(1.1); transform: scale(1.02); }
-
+        .verify-link { color: var(--gold); font-size: 11px; font-weight: 700; letter-spacing: 0.05em; }
+        .verify-link:hover { text-decoration: underline; }
     </style>
 </head>
 <body class="main-wrapper">
-
     <div class="centered-container">
         <!-- Navigation -->
         <nav class="flex justify-between items-center px-6 lg:px-16 py-10">
-            <div class="text-2xl font-black tracking-tighter cursor-pointer" onclick="window.scrollTo(0,0)">LS<span class="orange-text">.</span></div>
-            <!-- Update hover color to match primary orange -->
+            <div class="text-2xl font-black tracking-tighter cursor-pointer font-display" onclick="window.scrollTo(0,0)">LS<span class="gold-text">.</span></div>
             <div class="hidden md:flex space-x-8 lg:space-x-10 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-500">
-                <a href="#home" class="hover:text-[#ff6b00] transition">Home</a>
-                <a href="#services" class="hover:text-[#ff6b00] transition">Services</a>
-                <a href="#portfolio" class="hover:text-[#ff6b00] transition">Portfolio</a>
-                <a href="#experience" class="hover:text-[#ff6b00] transition">Experience</a>
-                <a href="#education" class="hover:text-[#ff6b00] transition">Education</a>
-                <a href="#contact" class="hover:text-[#ff6b00] transition">Contact</a>
+                <a href="#home" class="hover:text-[#C9A227] transition">Home</a>
+                <a href="#strengths" class="hover:text-[#C9A227] transition">Strengths</a>
+                <a href="#portfolio" class="hover:text-[#C9A227] transition">Portfolio</a>
+                <a href="#experience" class="hover:text-[#C9A227] transition">Experience</a>
+                <a href="#education" class="hover:text-[#C9A227] transition">Education</a>
+                <a href="#contact" class="hover:text-[#C9A227] transition">Contact</a>
             </div>
-            <a href="#contact" class="bg-[#ff6b00] text-white px-8 py-2.5 rounded-full font-bold text-[12px] hover:scale-105 transition shadow-lg shadow-orange-600/20 text-center">Hire Me</a>
+            <a href="#contact" class="btn-gold px-8 py-2.5 rounded-full font-bold text-[12px] hover:scale-105 transition shadow-lg shadow-black/30 text-center flex-none">Let's Connect</a>
         </nav>
 
         <div class="content-grid">
             <!-- Left Profile Panel -->
             <aside class="left-panel">
                 <div class="profile-card">
+                    <div class="profile-glow"></div>
                     <div class="profile-img-container">
-                        <img src="https://lh3.googleusercontent.com/d/1T1nAlJCPpgBe6Y4qW7-ZOojfDLLz6KRu" alt="Lionel" class="profile-img">
+                        <img src="https://lh3.googleusercontent.com/d/1T1nAlJCPpgBe6Y4qW7-ZOojfDLLz6KRu" alt="Lionel Sabaulan" class="profile-img">
                     </div>
-                    
+
                     <div class="flex justify-center mb-4">
-                        <div class="bg-green-500/10 text-green-500 text-[11px] font-bold px-4 py-1.5 rounded-full flex items-center gap-2 border border-green-500/20">
-                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div> Available for work
+                        <div class="bg-[#3FBF7F]/10 text-[#3FBF7F] text-[11px] font-bold px-4 py-1.5 rounded-full flex items-center gap-2 border border-[#3FBF7F]/20">
+                            <div class="w-2 h-2 bg-[#3FBF7F] rounded-full animate-pulse"></div> Available for work
                         </div>
                     </div>
+                    <h2 class="text-2xl font-bold mb-6 font-display">Lionel Sabaulan</h2>
 
-                    <h2 class="text-2xl font-bold mb-6">Lionel Sabaulan</h2>
-                    
                     <div class="flex justify-center space-x-3 mb-8 text-gray-500">
-                        <!-- Keep hover background orange -->
-                        <div class="w-10 h-10 border border-white/5 rounded-xl flex items-center justify-center hover:text-white hover:border-[#ff6b00] transition cursor-pointer hover:bg-[#ff6b00]"><i class="fab fa-instagram"></i></div>
-                        <div class="w-10 h-10 border border-white/5 rounded-xl flex items-center justify-center hover:text-white hover:border-[#ff6b00] transition cursor-pointer hover:bg-[#ff6b00]"><i class="fab fa-linkedin"></i></div>
-                        <div class="w-10 h-10 border border-white/5 rounded-xl flex items-center justify-center hover:text-white hover:border-[#ff6b00] transition cursor-pointer hover:bg-[#ff6b00]"><i class="fab fa-twitter"></i></div>
-                        <div class="w-10 h-10 border border-white/5 rounded-xl flex items-center justify-center hover:text-white hover:border-[#ff6b00] transition cursor-pointer hover:bg-[#ff6b00]"><i class="fab fa-behance"></i></div>
+                        <div class="w-10 h-10 border border-[color:var(--border-gold)] rounded-xl flex items-center justify-center hover:text-black hover:border-[#C9A227] transition cursor-pointer hover:bg-[#C9A227]"><i class="fab fa-linkedin"></i></div>
+                        <div class="w-10 h-10 border border-[color:var(--border-gold)] rounded-xl flex items-center justify-center hover:text-black hover:border-[#C9A227] transition cursor-pointer hover:bg-[#C9A227]"><i class="fab fa-github"></i></div>
+                        <div class="w-10 h-10 border border-[color:var(--border-gold)] rounded-xl flex items-center justify-center hover:text-black hover:border-[#C9A227] transition cursor-pointer hover:bg-[#C9A227]"><i class="fab fa-instagram"></i></div>
                     </div>
-
                     <div class="flex gap-3">
-                        <!-- Changed hover to become orange background -->
-                        <a href="https://drive.google.com/file/d/1Awy877B0vsZO4lJfkiFtogBXU0Bf2Iq5/view?usp=drive_link" target="_blank" class="bg-[#1a1a1a] border border-white/5 text-white/70 text-[11px] font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 flex-1 hover:bg-[#ff6b00] hover:text-white hover:border-[#ff6b00] transition">
+                        <a href="https://drive.google.com/file/d/1Awy877B0vsZO4lJfkiFtogBXU0Bf2Iq5/view?usp=drive_link" target="_blank" class="bg-[#1a1712] border border-[color:var(--border-gold)] text-white/70 text-[11px] font-bold py-3 px-4 rounded-xl flex items-center justify-center gap-2 flex-1 hover:bg-[#C9A227] hover:text-black hover:border-[#C9A227] transition">
                             <i class="fas fa-download"></i> Download CV
                         </a>
-                        <a href="#contact" class="btn-orange text-[11px]">
+                        <a href="#contact" class="btn-gold text-[11px]">
                             <i class="far fa-paper-plane"></i> Contact Me
                         </a>
                     </div>
@@ -309,284 +221,206 @@
 
             <!-- Right Scrollable Content -->
             <main class="right-panel">
-                <!-- Hero Section -->
+                <!-- Hero -->
                 <section id="home" class="mb-24 pt-4">
                     <div class="flex items-center gap-3 text-gray-400 mb-6 font-medium">
                         <span class="text-2xl">👋</span> Hello there
                     </div>
-                    <h1 class="text-4xl md:text-6xl font-bold leading-[1.1] mb-8 tracking-tight">
+                    <h1 class="font-display text-4xl md:text-6xl font-semibold leading-[1.1] mb-8 tracking-tight">
                         I'm Lionel Sabaulan,<br>
-                        <span class="orange-text typing-text" id="type-target"></span><br>
-                        Based in Philippines.
+                        <span class="gold-gradient-text typing-text" id="type-target"></span><br>
+                        based in the Philippines.
                     </h1>
                     <p class="text-gray-400 text-lg leading-relaxed max-w-2xl mb-12">
-                        Proactive Executive Assistant with over 4 years of experience supporting high-level leadership in the IT field. Expert in optimizing workflows, managing complex calendars, and fostering seamless communication between executive boards and technical teams. Combining a strong IT background with exceptional administrative skills, I excel at handling confidential data and driving operational efficiency in fast-paced environments.
+                        Proactive Executive Assistant with over 6 years of experience supporting high-level leadership in the IT field. Expert in developing custom Google Apps Script automation and advanced Google Sheets solutions for complex HR, accounting, and operational reporting — with a proven track record of handling sensitive, confidential data with strict discretion.
                     </p>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-4xl font-bold mb-1">5+</h3>
+                        <div class="bg-white/[0.03] p-6 rounded-2xl border border-[color:var(--border-gold)]">
+                            <h3 class="font-display text-4xl font-semibold mb-1 gold-text">6+</h3>
                             <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Years Experience</p>
                         </div>
-                        <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-4xl font-bold mb-1">15</h3>
-                            <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Projects Completed</p>
+                        <div class="bg-white/[0.03] p-6 rounded-2xl border border-[color:var(--border-gold)]">
+                            <h3 class="font-display text-4xl font-semibold mb-1 gold-text">2x</h3>
+                            <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Internal Promotions</p>
                         </div>
-                        <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                            <h3 class="text-4xl font-bold mb-1">12</h3>
-                            <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Happy Clients</p>
+                        <div class="bg-white/[0.03] p-6 rounded-2xl border border-[color:var(--border-gold)]">
+                            <h3 class="font-display text-4xl font-semibold mb-1 gold-text">40%</h3>
+                            <p class="text-[10px] text-gray-500 uppercase font-black tracking-widest">Manual Entry Reduced</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- Services Section -->
-                <section id="services" class="mb-24">
+                <!-- Core Strengths (was "Services") -->
+                <section id="strengths" class="mb-24">
                     <div class="flex items-center gap-3 mb-10">
-                        <i class="fas fa-layer-group orange-text text-xl"></i>
-                        <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Services</h2>
+                        <i class="fas fa-layer-group gold-text text-xl"></i>
+                        <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Core Strengths</h2>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Service 1 -->
                         <div class="info-card">
-                            <div class="mb-6">
-                                <i class="fas fa-user-tie orange-text text-3xl"></i>
-                            </div>
+                            <div class="mb-6"><i class="fas fa-microchip gold-text text-3xl"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Automation & Scripting</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Google Apps Script tools and workflow automation that cut manual data entry by up to 40% across departments.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="mb-6"><i class="fas fa-chart-line gold-text text-3xl"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Data & Analytics</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Advanced Google Sheets systems for confidential financial reporting, HR analytics, and operational dashboarding.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="mb-6"><i class="fas fa-globe gold-text text-3xl"></i></div>
+                            <h3 class="text-xl font-bold mb-3">Web & Domain Management</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed">Domain and DNS configuration across GoDaddy, Namecheap, and SiteGround, plus web hosting setup.</p>
+                        </div>
+                        <div class="info-card">
+                            <div class="mb-6"><i class="fas fa-user-tie gold-text text-3xl"></i></div>
                             <h3 class="text-xl font-bold mb-3">Executive Support</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed">
-                                Expert calendar management, travel coordination, and executive workflow optimization.
-                            </p>
-                        </div>
-                        
-                        <!-- Service 2 -->
-                        <div class="info-card">
-                            <div class="mb-6">
-                                <i class="fas fa-microchip orange-text text-3xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">IT Operations</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed">
-                                Bridging administrative efficiency with technical IT systems management.
-                            </p>
-                        </div>
-                        
-                        <!-- Service 3 -->
-                        <div class="info-card">
-                            <div class="mb-6">
-                                <i class="fas fa-database orange-text text-3xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">Data Management</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed">
-                                Organizing and maintaining data quality to ensure safe and easy access to information.
-                            </p>
-                        </div>
-                        
-                        <!-- Service 4 -->
-                        <div class="info-card">
-                            <div class="mb-6">
-                                <i class="fas fa-chart-line orange-text text-3xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3">Finance & Analytics</h3>
-                            <p class="text-gray-500 text-sm leading-relaxed">
-                                Budget oversight, expense tracking, and data analysis for informed decision-making.
-                            </p>
+                            <p class="text-gray-500 text-sm leading-relaxed">Calendar management, cross-functional liaison work, and document control for C-suite leadership.</p>
                         </div>
                     </div>
                 </section>
 
-                <!-- Portfolio Section -->
+                <!-- Portfolio: 3 real, verifiable case studies -->
                 <section id="portfolio" class="mb-24">
                     <div class="flex items-center justify-between mb-10">
                         <div class="flex items-center gap-3">
-                            <i class="fas fa-images orange-text text-xl"></i>
-                            <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Portfolio</h2>
+                            <i class="fas fa-images gold-text text-xl"></i>
+                            <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Selected Work</h2>
                         </div>
                         <div class="text-[10px] font-bold text-gray-600 flex items-center gap-2">
                              <i class="fas fa-mouse-pointer text-[8px]"></i> SWIPE TO VIEW
                         </div>
                     </div>
-                    
+
                     <div class="carousel-container" id="portfolio-container">
-                        <!-- Project 1 -->
                         <div class="carousel-slide">
-                            <div class="project-card group">
-                                <span class="project-number">01</span>
-                                <div class="project-img bg-zinc-900 flex items-center justify-center">
-                                    <i class="fas fa-project-diagram text-4xl text-zinc-800"></i>
+                            <div class="project-card">
+                                <span class="project-tag">PERSONAL PROJECT</span>
+                                <div class="w-12 h-12 rounded-xl bg-[#C9A227]/10 flex items-center justify-center mb-4">
+                                    <i class="fas fa-wallet gold-text text-lg"></i>
                                 </div>
-                                <div class="p-6">
-                                    <h3 class="text-lg font-bold mb-1">Executive Workflow System</h3>
-                                    <p class="text-xs text-gray-500 mb-4">Operations & IT Integration</p>
-                                    <a href="#" class="text-xs font-bold orange-text flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
+                                <h3 class="text-lg font-bold mb-2">Wealth Manager App</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed">Designed and built a private budgeting app for household finances — Flutter and Firebase, with a dark-and-gold interface and a rule-based financial health score.</p>
                             </div>
                         </div>
-
-                        <!-- Project 2 -->
                         <div class="carousel-slide">
-                            <div class="project-card group">
-                                <span class="project-number">02</span>
-                                <div class="project-img bg-zinc-900 flex items-center justify-center">
-                                    <i class="fas fa-server text-4xl text-zinc-800"></i>
+                            <div class="project-card">
+                                <span class="project-tag">PROCESS AUTOMATION</span>
+                                <div class="w-12 h-12 rounded-xl bg-[#C9A227]/10 flex items-center justify-center mb-4">
+                                    <i class="fas fa-project-diagram gold-text text-lg"></i>
                                 </div>
-                                <div class="p-6">
-                                    <h3 class="text-lg font-bold mb-1">IT Infrastructure Audit</h3>
-                                    <p class="text-xs text-gray-500 mb-4">Systems Support & Security</p>
-                                    <a href="#" class="text-xs font-bold orange-text flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
+                                <h3 class="text-lg font-bold mb-2">Executive Workflow System</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed">Manual, spreadsheet-based reporting was slowing departments down. Built custom Google Apps Script automation that now handles the same work with 40% less manual entry.</p>
                             </div>
                         </div>
-
-                        <!-- Project 3 -->
                         <div class="carousel-slide">
-                            <div class="project-card group">
-                                <span class="project-number">03</span>
-                                <div class="project-img bg-zinc-900 flex items-center justify-center">
-                                    <i class="fas fa-chart-pie text-4xl text-zinc-800"></i>
+                            <div class="project-card">
+                                <span class="project-tag">SYSTEMS & SECURITY</span>
+                                <div class="w-12 h-12 rounded-xl bg-[#C9A227]/10 flex items-center justify-center mb-4">
+                                    <i class="fas fa-server gold-text text-lg"></i>
                                 </div>
-                                <div class="p-6">
-                                    <h3 class="text-lg font-bold mb-1">Financial Data Dashboard</h3>
-                                    <p class="text-xs text-gray-500 mb-4">Analytics & Budgeting</p>
-                                    <a href="#" class="text-xs font-bold orange-text flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project 4 -->
-                        <div class="carousel-slide">
-                            <div class="project-card group">
-                                <span class="project-number">04</span>
-                                <div class="project-img bg-zinc-900 flex items-center justify-center">
-                                    <i class="fas fa-tasks text-4xl text-zinc-800"></i>
-                                </div>
-                                <div class="p-6">
-                                    <h3 class="text-lg font-bold mb-1">Task Management Portal</h3>
-                                    <p class="text-xs text-gray-500 mb-4">Admin Efficiency Tool</p>
-                                    <a href="#" class="text-xs font-bold orange-text flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Project 5 -->
-                        <div class="carousel-slide">
-                            <div class="project-card group">
-                                <span class="project-number">05</span>
-                                <div class="project-img bg-zinc-900 flex items-center justify-center">
-                                    <i class="fas fa-users-cog text-4xl text-zinc-800"></i>
-                                </div>
-                                <div class="p-6">
-                                    <h3 class="text-lg font-bold mb-1">Board Meeting Scheduler</h3>
-                                    <p class="text-xs text-gray-500 mb-4">Stakeholder Coordination</p>
-                                    <a href="#" class="text-xs font-bold orange-text flex items-center gap-2 group-hover:gap-3 transition-all uppercase tracking-widest">View Project <i class="fas fa-arrow-right"></i></a>
-                                </div>
+                                <h3 class="text-lg font-bold mb-2">IT Infrastructure Audit</h3>
+                                <p class="text-sm text-gray-500 leading-relaxed">Reviewed domain, hosting, and third-party integrations — live chat, SMS OTP, payment gateways — to close gaps before they became incidents.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Experience Section -->
+                <!-- Experience -->
                 <section id="experience" class="mb-24">
                     <div class="flex items-center gap-3 mb-10">
-                        <i class="fas fa-briefcase orange-text text-xl"></i>
+                        <i class="fas fa-briefcase gold-text text-xl"></i>
                         <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Experience</h2>
                     </div>
-                    
+
                     <div class="space-y-4">
-                        <!-- Experience 1 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-user-tie orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-user-tie gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">Executive Assistant to the Chairman</h3>
                                         <p class="text-sm font-semibold text-gray-300 mb-2">One Dynasty IT Solution FZC LLC</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Administrative support, meeting coordination, and project management. Handling highly confidential information, financial budgets, and seamless communication for the executive board.</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Spearheads workflow automation tools that reduced manual data entry by 40%. Manages confidential document control, financial oversight, and serves as strategic liaison between the Chairman, Board, and external stakeholders.</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">Mar 2025 - Present</span>
                             </div>
                         </div>
-
-                        <!-- Experience 2 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-user-shield orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-user-shield gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">Executive Assistant to the Chairman</h3>
-                                        <p class="text-sm font-semibold text-gray-300 mb-2">Tradeblvd</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Acted as the primary point of contact for the CEO. Managed active calendars, travel plans, correspondence, and assisted with Marketing and Sales initiatives.</p>
+                                        <p class="text-sm font-semibold text-gray-300 mb-2">Tradeblvd &nbsp;·&nbsp; Promoted from IT Admin</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Managed complex calendars, international travel itineraries, and visa acquisitions for the CEO/Chairman. Handled confidential financial reporting and minor bookkeeping with strict discretion.</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">Jun 2021 - Mar 2025</span>
                             </div>
                         </div>
-
-                        <!-- Experience 3 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-network-wired orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-network-wired gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">IT Admin</h3>
-                                        <p class="text-sm font-semibold text-gray-300 mb-2">Tradeblvd</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Developed systems using Google Sheets/Excel. Managed domain renewals, 3rd-party integrations (live chat, SMS OTP), and proposed team structures to streamline process flow.</p>
+                                        <p class="text-sm font-semibold text-gray-300 mb-2">Tradeblvd &nbsp;·&nbsp; Promoted from Admin Encoder</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Developed automated tracking systems in Google Sheets and Excel. Managed domain lifecycles and integrated live chat, SMS OTP, and payment gateway platforms.</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">Jun 2020 - Jun 2021</span>
                             </div>
                         </div>
-
-                        <!-- Experience 4 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-database orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-database gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">Admin Encoder</h3>
                                         <p class="text-sm font-semibold text-gray-300 mb-2">Tradeblvd</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Handled courier communications, computed shipping fees and commissions, and fully managed the inventory system ensuring accurate tally and reconciled reports.</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Computed agent commissions and shipping fees, and managed a comprehensive inventory system, reconciling discrepancies with LBC, J&T, and GoGoXpress.</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">Jun 2019 - Jun 2020</span>
                             </div>
                         </div>
-
-                        <!-- Experience 5 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-headset orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-headset gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">Technical Support Representative</h3>
                                         <p class="text-sm font-semibold text-gray-300 mb-2">DOS-1</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Provided remote phone support for machine troubleshooting and routed customers to appropriate departments for advanced assistance.</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Provided remote technical support and diagnostics to resolve hardware and system issues for end-users.</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">Apr 2019 - May 2019</span>
                             </div>
                         </div>
-
-                        <!-- Experience 6 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-keyboard orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-keyboard gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">Encoder (OJT)</h3>
                                         <p class="text-sm font-semibold text-gray-300 mb-2">PELT Information System</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Encoded vital land title information, compiled documents, and printed regular progress reports for the administration.</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">Encoded high-volume, sensitive land title and borrower information into the primary database system.</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">Jan 2019 - Mar 2019</span>
@@ -595,20 +429,19 @@
                     </div>
                 </section>
 
-                <!-- Education Section -->
+                <!-- Education -->
                 <section id="education" class="mb-24">
                     <div class="flex items-center gap-3 mb-10">
-                        <i class="fas fa-graduation-cap orange-text text-xl"></i>
+                        <i class="fas fa-graduation-cap gold-text text-xl"></i>
                         <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Education</h2>
                     </div>
-                    
+
                     <div class="space-y-4">
-                        <!-- Edu 1 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-university orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-university gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">Bachelor of Science in Information Technology</h3>
@@ -618,13 +451,11 @@
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">2019</span>
                             </div>
                         </div>
-                        
-                        <!-- Edu 2 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-school orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-school gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">K-12 Program (TVL - Programming)</h3>
@@ -634,18 +465,16 @@
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">2017 - 2019</span>
                             </div>
                         </div>
-                        
-                        <!-- Edu 3 -->
                         <div class="info-card">
                             <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
                                 <div class="flex items-start gap-5">
-                                    <div class="w-14 h-14 bg-orange-500/10 rounded-2xl flex items-center justify-center shrink-0">
-                                        <i class="fas fa-building orange-text text-xl"></i>
+                                    <div class="w-14 h-14 bg-[#C9A227]/10 rounded-2xl flex items-center justify-center shrink-0">
+                                        <i class="fas fa-building gold-text text-xl"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-xl font-bold">High School</h3>
-                                        <p class="text-sm font-semibold text-gray-300 mb-2">T.S Cruz Highschool</p>
-                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">SSG Officer from 2015 to 2017</p>
+                                        <p class="text-sm font-semibold text-gray-300 mb-2">T.S. Cruz Highschool</p>
+                                        <p class="text-sm text-gray-500 leading-relaxed max-w-2xl">SSG Officer, 2015 to 2017</p>
                                     </div>
                                 </div>
                                 <span class="text-[11px] bg-white/5 px-4 py-2 rounded-full text-gray-400 font-bold uppercase shrink-0 mt-1 whitespace-nowrap">2013 - 2017</span>
@@ -654,42 +483,72 @@
                     </div>
                 </section>
 
-                <!-- Certificates & Training Section -->
+                <!-- Certificates -->
                 <section id="certificates" class="mb-24">
                     <div class="flex items-center gap-3 mb-10">
-                        <i class="fas fa-certificate orange-text text-xl"></i>
+                        <i class="fas fa-certificate gold-text text-xl"></i>
                         <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Certificates & Training</h2>
                     </div>
-                    
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Cert 1 -->
                         <div class="info-card flex items-start gap-4">
-                            <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fas fa-award orange-text text-lg"></i>
+                            <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-award gold-text text-lg"></i>
                             </div>
-                            <div>
-                                <h3 class="text-md font-bold text-white mb-1">MS Excel From Beginner to Advanced</h3>
+                            <div class="flex-1">
+                                <h3 class="text-md font-bold text-white mb-1">Data Analytics Essentials</h3>
+                                <p class="text-xs text-gray-500 mb-2">Cisco Networking Academy · Aug 2026</p>
+                                <!-- TODO: paste your Credly badge link in the href below -->
+                                <a href="#" class="verify-link"><i class="fas fa-arrow-up-right-from-square mr-1"></i>Verify credential</a>
+                            </div>
+                        </div>
+                        <div class="info-card flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-award gold-text text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-md font-bold text-white mb-1">Introduction to Data Science</h3>
+                                <p class="text-xs text-gray-500 mb-2">Cisco Networking Academy · Jul 2026</p>
+                                <!-- TODO: paste your Credly badge link in the href below -->
+                                <a href="#" class="verify-link"><i class="fas fa-arrow-up-right-from-square mr-1"></i>Verify credential</a>
+                            </div>
+                        </div>
+                        <div class="info-card flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-award gold-text text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-md font-bold text-white mb-1">Introduction to Cybersecurity</h3>
+                                <p class="text-xs text-gray-500 mb-2">Cisco Networking Academy · Jul 2026</p>
+                                <!-- TODO: paste your Credly badge link in the href below -->
+                                <a href="#" class="verify-link"><i class="fas fa-arrow-up-right-from-square mr-1"></i>Verify credential</a>
+                            </div>
+                        </div>
+                        <div class="info-card flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-file-invoice-dollar gold-text text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-md font-bold text-white mb-1">Xero Accounting Certificate</h3>
+                                <p class="text-xs text-gray-500">EZACC Training Center</p>
+                            </div>
+                        </div>
+                        <div class="info-card flex items-start gap-4">
+                            <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-table gold-text text-lg"></i>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-md font-bold text-white mb-1">MS Excel: Beginner to Advanced</h3>
                                 <p class="text-xs text-gray-500">Certificate of Completion</p>
                             </div>
                         </div>
-                        <!-- Cert 2 -->
                         <div class="info-card flex items-start gap-4">
-                            <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fas fa-award orange-text text-lg"></i>
+                            <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0">
+                                <i class="fas fa-users-cog gold-text text-lg"></i>
                             </div>
-                            <div>
-                                <h3 class="text-md font-bold text-white mb-1">EZACC Training Center</h3>
-                                <p class="text-xs text-gray-500">Certificate of Completion</p>
-                            </div>
-                        </div>
-                        <!-- Cert 3 -->
-                        <div class="info-card flex items-start gap-4">
-                            <div class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center shrink-0">
-                                <i class="fas fa-users-cog orange-text text-lg"></i>
-                            </div>
-                            <div>
+                            <div class="flex-1">
                                 <h3 class="text-md font-bold text-white mb-1">Leadership Training</h3>
-                                <p class="text-xs text-gray-500">Perpetual Help</p>
+                                <p class="text-xs text-gray-500">University of Perpetual Help</p>
                             </div>
                         </div>
                     </div>
@@ -698,18 +557,18 @@
                 <!-- Contact -->
                 <section id="contact" class="pb-32">
                     <div class="flex items-center gap-3 mb-10">
-                        <i class="fas fa-paper-plane orange-text text-xl"></i>
+                        <i class="fas fa-paper-plane gold-text text-xl"></i>
                         <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500">Contact</h2>
                     </div>
-                    <h3 class="text-5xl font-bold mb-12">Let's Talk!</h3>
-                    
+                    <h3 class="font-display text-5xl font-semibold mb-12">Let's Talk!</h3>
+
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-12">
                         <div class="space-y-4">
                             <div class="info-card flex items-center gap-5">
                                 <div class="contact-icon-box"><i class="fas fa-phone-alt"></i></div>
                                 <div>
                                     <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Contact No</p>
-                                    <p class="font-bold text-lg">+63 9204771430</p>
+                                    <p class="font-bold text-lg">+63 920 477 1430</p>
                                 </div>
                             </div>
                             <div class="info-card flex items-center gap-5">
@@ -719,25 +578,22 @@
                                     <p class="font-bold text-lg">spogme23@gmail.com</p>
                                 </div>
                             </div>
-                            <!-- Added Home Address Field -->
                             <div class="info-card flex items-center gap-5">
                                 <div class="contact-icon-box"><i class="fas fa-map-marker-alt"></i></div>
                                 <div>
-                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Address</p>
-                                    <p class="font-bold text-sm leading-relaxed">Blk 15 Lot 11 Gladiola St.<br>T.S Cruz Subd. Almanza II, Las Piñas City</p>
+                                    <p class="text-[10px] text-gray-500 uppercase font-bold tracking-widest mb-1">Location</p>
+                                    <p class="font-bold text-sm leading-relaxed">Las Piñas City, Metro Manila</p>
                                 </div>
                             </div>
                         </div>
-
                         <div class="space-y-4">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <input type="text" class="form-control" placeholder="Full Name">
                                 <input type="email" class="form-control" placeholder="Email">
                             </div>
-                            <!-- Added Subject Field -->
                             <input type="text" class="form-control" placeholder="Subject">
                             <textarea class="form-control h-36" placeholder="Message"></textarea>
-                            <button class="w-full bg-[#ff6b00] text-white py-4 rounded-2xl font-bold text-lg hover:scale-[1.01] active:scale-[0.98] transition-all">Send Message</button>
+                            <button class="w-full btn-gold py-4 rounded-2xl font-bold text-lg hover:scale-[1.01] active:scale-[0.98] transition-all">Send Message</button>
                         </div>
                     </div>
                 </section>
@@ -746,13 +602,11 @@
     </div>
 
     <script>
-        // Updated words array without "Finance Analyst"
-        const words = ["Executive Assistant", "IT Admin Support", "Data Management Lead"];
+        const words = ["Executive Assistant", "Workflow Automation", "Financial Oversight"];
         let wordIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
         const target = document.getElementById('type-target');
-
         function type() {
             const currentWord = words[wordIndex];
             if (isDeleting) {
@@ -762,24 +616,18 @@
                 target.innerText = currentWord.substring(0, charIndex + 1);
                 charIndex++;
             }
-
             let typeSpeed = isDeleting ? 40 : 100;
-
             if (!isDeleting && charIndex === currentWord.length) {
                 isDeleting = true;
-                typeSpeed = 2000; 
+                typeSpeed = 2000;
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 wordIndex = (wordIndex + 1) % words.length;
                 typeSpeed = 500;
             }
-
             setTimeout(type, typeSpeed);
         }
-
-        window.onload = () => {
-            type();
-        };
+        window.onload = () => { type(); };
     </script>
 </body>
 </html>
