@@ -165,25 +165,50 @@ body{
 /* ---------- Certificate modal ---------- */
 .modal-backdrop{
   position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;
-  padding:1.5rem;background:rgba(5,4,2,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  padding:1.5rem;background:rgba(5,4,2,0.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   opacity:0;pointer-events:none;transition:opacity .3s ease;
 }
 .modal-backdrop.active{opacity:1;pointer-events:auto;}
 .modal-box{
-  width:100%;max-width:640px;max-height:88vh;background:var(--card-solid);border:1px solid var(--border-gold);
+  width:100%;max-width:640px;max-height:90vh;background:var(--card-solid);border:1px solid var(--border-gold);
   border-radius:24px;overflow:hidden;position:relative;display:flex;flex-direction:column;
-  transform:translateY(24px) scale(.97);transition:transform .4s cubic-bezier(.16,.84,.44,1);
-  box-shadow:0 40px 90px -20px rgba(0,0,0,0.75);
+  transform:translateY(24px) scale(.97);transition:transform .4s cubic-bezier(.16,.84,.44,1), max-width .35s ease;
+  box-shadow:0 50px 110px -20px rgba(0,0,0,0.8), 0 0 0 1px rgba(201,162,39,0.06);
 }
 .modal-backdrop.active .modal-box{transform:translateY(0) scale(1);}
-.modal-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.1rem 1.4rem;border-bottom:1px solid var(--border-gold-soft);flex-shrink:0;}
-.modal-title{font-weight:700;font-size:0.95rem;color:var(--ivory);}
-.modal-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.1em;color:var(--gold);text-transform:uppercase;margin-top:2px;}
+/* Certificates / folders render landscape and wide -- give them room */
+.modal-box.modal-cert,.modal-box.modal-folder{max-width:960px;}
+.modal-box.modal-cert .modal-body,.modal-box.modal-folder .modal-body{aspect-ratio:1.5/1;flex:0 0 auto;max-height:78vh;}
+/* Badges are a small square graphic -- present them on a bright card, not a full-bleed dark frame */
+.modal-box.modal-badge{max-width:420px;}
+.modal-box.modal-badge .modal-body{
+  flex:0 0 auto;aspect-ratio:4/5;max-height:70vh;
+  background:linear-gradient(160deg,#f4f0e6,#e7e0cf);
+  display:flex;align-items:center;justify-content:center;padding:1.5rem;
+}
+.modal-box.modal-badge .modal-body iframe{width:auto;height:100%;max-width:100%;}
+
+.modal-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1.15rem 1.5rem;border-bottom:1px solid var(--border-gold-soft);flex-shrink:0;background:linear-gradient(180deg,rgba(201,162,39,0.05),transparent);}
+.modal-title{font-weight:700;font-size:1rem;color:var(--ivory);letter-spacing:0.01em;}
+.modal-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase;margin-top:3px;}
 .modal-close{width:34px;height:34px;border-radius:10px;background:rgba(201,162,39,0.08);color:var(--gold);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;flex-shrink:0;}
 .modal-close:hover{background:var(--gold);color:#0B0A08;transform:rotate(90deg);}
-.modal-body{flex:1;background:#050403;min-height:60vh;position:relative;}
-.modal-body iframe{width:100%;height:100%;border:0;position:relative;z-index:1;}
-.modal-loader{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:1.4rem;z-index:0;}
+.modal-body{flex:1;background:#100e0a;min-height:50vh;position:relative;overflow:hidden;}
+.modal-body iframe{width:100%;height:100%;border:0;position:relative;z-index:1;display:block;background:transparent;}
+.modal-loader{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;
+  color:var(--gold);font-size:1.6rem;z-index:2;background:inherit;
+  transition:opacity .35s ease,visibility .35s ease;opacity:1;visibility:visible;
+}
+.modal-loader span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.12em;color:var(--warm-gray);text-transform:uppercase;}
+.modal-loader.is-hidden{opacity:0;visibility:hidden;}
+.modal-footer{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:0.85rem 1.5rem;
+  border-top:1px solid var(--border-gold-soft);flex-shrink:0;font-family:'JetBrains Mono',monospace;
+}
+.modal-footer-hint{font-size:9px;color:var(--warm-gray);letter-spacing:0.05em;}
+.modal-open-link{font-size:10px;font-weight:700;letter-spacing:0.06em;color:var(--gold);display:inline-flex;align-items:center;gap:6px;}
+.modal-open-link:hover{color:var(--gold-bright);}
 .nav-link{position:relative;}
 .nav-link::after{content:"";position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--gold);transition:width .3s ease;}
 .nav-link:hover::after{width:100%;}
@@ -558,8 +583,8 @@ body{
                 <h3 class="text-md font-bold text-white mb-1">Data Analytics Essentials</h3>
                 <p class="text-xs text-gray-500 mb-3 font-mono">Cisco Networking Academy · Aug 2026</p>
                 <div class="flex gap-4">
-                  <button type="button" class="verify-link" onclick="openModal('https://www.credly.com/embedded_badge/f4d5f0a6-66f0-4ab3-8b0a-32cb9384d5fb','Data Analytics Essentials','Credly Badge')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Badge</button>
-                  <button type="button" class="verify-link text-gray-400" onclick="openModal('https://drive.google.com/file/d/1d3cqz_ld24yz3kSKCAZoMQX3Q6G3PLLw/preview','Data Analytics Essentials','Certificate')"><i class="fas fa-file-lines mr-1"></i>Certificate</button>
+                  <button type="button" class="verify-link" onclick="openModal('https://www.credly.com/embedded_badge/f4d5f0a6-66f0-4ab3-8b0a-32cb9384d5fb','Data Analytics Essentials','Credly Badge','badge','https://www.credly.com/badges/f4d5f0a6-66f0-4ab3-8b0a-32cb9384d5fb')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Badge</button>
+                  <button type="button" class="verify-link text-gray-400" onclick="openModal('https://drive.google.com/file/d/1d3cqz_ld24yz3kSKCAZoMQX3Q6G3PLLw/preview','Data Analytics Essentials','Certificate','cert','https://drive.google.com/file/d/1d3cqz_ld24yz3kSKCAZoMQX3Q6G3PLLw/view?usp=sharing')"><i class="fas fa-file-lines mr-1"></i>Certificate</button>
                 </div>
               </div>
             </div>
@@ -573,8 +598,8 @@ body{
                 <h3 class="text-md font-bold text-white mb-1">Introduction to Data Science</h3>
                 <p class="text-xs text-gray-500 mb-3 font-mono">Cisco Networking Academy · Jul 2026</p>
                 <div class="flex gap-4">
-                  <button type="button" class="verify-link" onclick="openModal('https://www.credly.com/embedded_badge/77b451b3-1ce9-4c3e-984c-4a90ba95a3f0','Introduction to Data Science','Credly Badge')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Badge</button>
-                  <button type="button" class="verify-link text-gray-400" onclick="openModal('https://drive.google.com/file/d/1jLvWlbXAi5iE1UPQrvKxthJshBJ_Ioxn/preview','Introduction to Data Science','Certificate')"><i class="fas fa-file-lines mr-1"></i>Certificate</button>
+                  <button type="button" class="verify-link" onclick="openModal('https://www.credly.com/embedded_badge/77b451b3-1ce9-4c3e-984c-4a90ba95a3f0','Introduction to Data Science','Credly Badge','badge','https://www.credly.com/badges/77b451b3-1ce9-4c3e-984c-4a90ba95a3f0')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Badge</button>
+                  <button type="button" class="verify-link text-gray-400" onclick="openModal('https://drive.google.com/file/d/1jLvWlbXAi5iE1UPQrvKxthJshBJ_Ioxn/preview','Introduction to Data Science','Certificate','cert','https://drive.google.com/file/d/1jLvWlbXAi5iE1UPQrvKxthJshBJ_Ioxn/view?usp=sharing')"><i class="fas fa-file-lines mr-1"></i>Certificate</button>
                 </div>
               </div>
             </div>
@@ -588,8 +613,8 @@ body{
                 <h3 class="text-md font-bold text-white mb-1">Introduction to Cybersecurity</h3>
                 <p class="text-xs text-gray-500 mb-3 font-mono">Cisco Networking Academy · Jul 2026</p>
                 <div class="flex gap-4">
-                  <button type="button" class="verify-link" onclick="openModal('https://www.credly.com/embedded_badge/6e73c57d-ff7b-4708-8f07-e4a58fdee370','Introduction to Cybersecurity','Credly Badge')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Badge</button>
-                  <button type="button" class="verify-link text-gray-400" onclick="openModal('https://drive.google.com/file/d/1rIZL5JF6q6DaXSOtEO68cTiBlCTD-9bT/preview','Introduction to Cybersecurity','Certificate')"><i class="fas fa-file-lines mr-1"></i>Certificate</button>
+                  <button type="button" class="verify-link" onclick="openModal('https://www.credly.com/embedded_badge/6e73c57d-ff7b-4708-8f07-e4a58fdee370','Introduction to Cybersecurity','Credly Badge','badge','https://www.credly.com/badges/6e73c57d-ff7b-4708-8f07-e4a58fdee370')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Badge</button>
+                  <button type="button" class="verify-link text-gray-400" onclick="openModal('https://drive.google.com/file/d/1rIZL5JF6q6DaXSOtEO68cTiBlCTD-9bT/preview','Introduction to Cybersecurity','Certificate','cert','https://drive.google.com/file/d/1rIZL5JF6q6DaXSOtEO68cTiBlCTD-9bT/view?usp=sharing')"><i class="fas fa-file-lines mr-1"></i>Certificate</button>
                 </div>
               </div>
             </div>
@@ -601,7 +626,7 @@ body{
               <div class="flex-1">
                 <h3 class="text-md font-bold text-white mb-1">Xero Accounting Certificate</h3>
                 <p class="text-xs text-gray-500 mb-3 font-mono">EZACC Training Center</p>
-                <button type="button" class="verify-link" onclick="openModal('https://drive.google.com/embeddedfolderview?id=1H4ip-scdsbsgpCFEjmHFgIVSvcXWosik#list','Xero Accounting Certificate','Certificate Folder')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Certificate</button>
+                <button type="button" class="verify-link" onclick="openModal('https://drive.google.com/embeddedfolderview?id=1H4ip-scdsbsgpCFEjmHFgIVSvcXWosik#list','Xero Accounting Certificate','Certificate Folder','folder','https://drive.google.com/drive/folders/1H4ip-scdsbsgpCFEjmHFgIVSvcXWosik')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Certificate</button>
               </div>
             </div>
           </div>
@@ -612,7 +637,7 @@ body{
               <div class="flex-1">
                 <h3 class="text-md font-bold text-white mb-1">Advanced Microsoft Excel</h3>
                 <p class="text-xs text-gray-500 mb-3 font-mono">Udemy · Certificate of Completion</p>
-                <button type="button" class="verify-link" onclick="openModal('https://drive.google.com/file/d/1brNjpWiRO0flBX2aE4elDSY5I4CW4RHD/preview','Advanced Microsoft Excel','Certificate')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Certificate</button>
+                <button type="button" class="verify-link" onclick="openModal('https://drive.google.com/file/d/1brNjpWiRO0flBX2aE4elDSY5I4CW4RHD/preview','Advanced Microsoft Excel','Certificate','cert','https://drive.google.com/file/d/1brNjpWiRO0flBX2aE4elDSY5I4CW4RHD/view?usp=sharing')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Certificate</button>
               </div>
             </div>
           </div>
@@ -675,7 +700,7 @@ body{
 </div>
 
 <div class="modal-backdrop" id="certModal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
+  <div class="modal-box" id="modalBox">
     <div class="modal-header">
       <div>
         <p class="modal-title" id="modalTitle">Certificate</p>
@@ -684,8 +709,12 @@ body{
       <button type="button" class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
     </div>
     <div class="modal-body">
-      <div class="modal-loader" id="modalLoader"><i class="fas fa-circle-notch fa-spin"></i></div>
+      <div class="modal-loader" id="modalLoader"><i class="fas fa-circle-notch fa-spin"></i><span>Loading preview</span></div>
       <iframe id="modalIframe" src="" title="Certificate preview" allowfullscreen></iframe>
+    </div>
+    <div class="modal-footer">
+      <span class="modal-footer-hint">Press ESC or click outside to close</span>
+      <a id="modalOpenLink" href="#" target="_blank" rel="noopener" class="modal-open-link"><i class="fas fa-up-right-from-square"></i>Open full size</a>
     </div>
   </div>
 </div>
@@ -779,16 +808,29 @@ window.onload = () => {
 };
 
 // Certificate / badge popup modal
-function openModal(src, title, sub) {
+function openModal(src, title, sub, type, openHref) {
   const backdrop = document.getElementById('certModal');
+  const box = document.getElementById('modalBox');
   const iframe = document.getElementById('modalIframe');
   const loader = document.getElementById('modalLoader');
+  const openLink = document.getElementById('modalOpenLink');
+
   document.getElementById('modalTitle').textContent = title;
   document.getElementById('modalSub').textContent = sub;
-  loader.style.display = 'flex';
-  iframe.style.opacity = 0;
+  openLink.href = openHref || src.replace('/preview', '/view').replace('embeddedfolderview?id=', 'drive/folders/').replace('#list', '').replace('embedded_badge', 'badges');
+
+  box.classList.remove('modal-cert', 'modal-badge', 'modal-folder');
+  if (type) box.classList.add('modal-' + type);
+
+  // Loader sits ABOVE the iframe and simply fades away once ready -- the
+  // iframe itself is never hidden or made transparent, so content never
+  // visibly "disappears" mid-load.
+  loader.classList.remove('is-hidden');
   iframe.src = src;
-  iframe.onload = () => { loader.style.display = 'none'; iframe.style.opacity = 1; iframe.style.transition = 'opacity .3s ease'; };
+  iframe.onload = () => loader.classList.add('is-hidden');
+  // safety net: hide loader even if onload never fires cleanly
+  setTimeout(() => loader.classList.add('is-hidden'), 4000);
+
   backdrop.classList.add('active');
   document.body.style.overflow = 'hidden';
 }
