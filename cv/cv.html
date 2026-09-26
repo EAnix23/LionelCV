@@ -10,26 +10,33 @@
   @font-face { font-family: 'Montserrat'; font-weight: 700; font-style: normal; src: url(https://cdn.jsdelivr.net/npm/@fontsource/montserrat@5/files/montserrat-latin-700-normal.woff2) format('woff2'); }
   @page { size: Letter; margin: 0.5in 0.55in 0.45in; }
   * { box-sizing: border-box; }
-  body { margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-size: 10pt; line-height: 1.32; color: #000; }
+  /* Accent colours match lionelsabaulan.cv: navy headings, sky-blue rules and bullets */
+  body { margin: 0; font-family: 'Montserrat', Arial, sans-serif; font-size: 10pt; line-height: 1.27; color: #111; }
   a { color: inherit; text-decoration: none; }
-  h1 { font-size: 15pt; font-weight: 700; margin: 0 0 2pt; letter-spacing: .01em; }
-  .contact { font-size: 10pt; }
-  h2 { font-size: 10.5pt; font-weight: 700; text-transform: uppercase; margin: 0 0 2pt; }
-  section { border-top: 1px solid #888; padding-top: 6pt; margin-top: 7pt; }
+  h1 { font-size: 17pt; font-weight: 700; margin: 0 0 1pt; letter-spacing: .04em; color: #0E2A47; }
+  .tagline { font-size: 9.5pt; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #3C7FB4; margin-bottom: 3pt; }
+  .contact { font-size: 10pt; color: #333; }
+  h2 { font-size: 10.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin: 0 0 2pt; color: #0E2A47; }
+  section { border-top: 1.2px solid #7CC4EC; padding-top: 6pt; margin-top: 7pt; }
+  li::marker { color: #3C7FB4; }
+  .job-head span:first-child { color: #0E2A47; }
   ul { margin: 0; padding-left: 32pt; }
   li { margin: 0; padding-left: 2pt; }
-  .job { break-inside: avoid-page; margin-top: 5pt; }
+  .job { margin-top: 5pt; }
+  .job-head, .role { break-after: avoid; }
+  li { break-inside: avoid; }
   .job:first-of-type { margin-top: 4pt; }
   .job-head { display: flex; justify-content: space-between; font-weight: 700; }
   .role { font-style: italic; }
   p { margin: 0; }
-  section:last-child { border-bottom: 1px solid #888; padding-bottom: 6pt; }
+  section:last-child { border-bottom: 1.2px solid #7CC4EC; padding-bottom: 6pt; }
 </style>
 </head>
 <body>
 
 <header>
   <h1>LIONEL SABAULAN</h1>
+  <div class="tagline">Executive Assistant &nbsp;·&nbsp; Workflow Automation</div>
   <div class="contact">
     Las Piñas City, Metro Manila &nbsp;|&nbsp; +63 947 453 2069 &nbsp;|&nbsp; +63 920 477 1430<br>
     <a href="mailto:hello@lionelsabaulan.cv">hello@lionelsabaulan.cv</a> &nbsp;|&nbsp; <a href="https://lionelsabaulan.cv">lionelsabaulan.cv</a><br>
@@ -39,7 +46,7 @@
 
 <section>
   <h2>Professional Summary</h2>
-  <p>Proactive Executive Assistant with over 6 years of experience supporting high-level leadership in the IT field. Expert in optimizing operations by developing custom Google Apps Script automation and advanced Google Sheets solutions for complex HR, accounting, and operational reporting. Proven track record of handling sensitive, confidential data with strict discretion while fostering seamless communication between technical teams and executive boards.</p>
+  <p>Executive Assistant with 6+ years of experience supporting C-suite leadership in the IT sector, who also builds the automation behind the role. Cut manual data entry by 40% with custom Google Apps Script tools, removed almost 50% of manual order-operations work with an automated receipt and inventory system, and rose from Admin Encoder to Executive Assistant to the Chairman in two years. Trusted with confidential financial, HR and board-level information. Open to part-time, remote roles.</p>
 </section>
 
 <section>
@@ -47,6 +54,7 @@
   <ul>
     <li><b>Automation &amp; Scripting:</b> Google Apps Script, Workflow Automation, Process Optimization</li>
     <li><b>Data &amp; Analytics:</b> Advanced Google Sheets, Confidential Financial Reporting, HR Analytics &amp; Dashboarding, Data Integrity</li>
+    <li><b>Web Apps &amp; Integrations:</b> Firebase, Supabase, Cloudflare Workers, Laravel, React, Python (Telegram bots), REST APIs</li>
     <li><b>Web &amp; Domain Management:</b> Domain &amp; DNS Configuration (GoDaddy, Namecheap, SiteGround, .ph), Web Hosting Setup</li>
     <li><b>Administrative &amp; Executive Support:</b> Executive Calendar Management, Cross-Functional Team Liaison, High-Level Stakeholder Communication, Document Control &amp; Confidentiality</li>
   </ul>
@@ -112,6 +120,19 @@
       <li><b>Data Ingestion:</b> Encoded high-volume, sensitive information regarding land titles, candidate mortgagers, and borrowers into the primary database system.</li>
     </ul>
   </div>
+</section>
+
+<section>
+  <h2>Key Projects</h2>
+  <ul>
+    <li><b>Parcel Receipt Generator &amp; Inventory Tracker</b> (Google Sheets): barcoded parcel receipts generated from each order and scanned on delivery or RTS, plus per-courier stock tracking with reorder alerts. Removed almost 50% of manual operations work.</li>
+    <li><b>Consolidated Brand P&amp;L Dashboard</b> (Apps Script): one live view of net income across brands, with filters, charts and drill-downs.</li>
+    <li><b>Domain Compliance &amp; ISP Block Tracker</b> (Cloudflare Workers, D1): 24,000+ verification records, AI executive summaries, and a team KPI and attendance module.</li>
+    <li><b>Domain Expiry &amp; DNS Telegram Bot</b> (Python, GoDaddy API): 15-day expiry alerts and bulk nameserver changes across seven registrar accounts.</li>
+    <li><b>SMS Broadcast &amp; Lead Platform</b> (Laravel, Filament): multi-branch campaigns, per-telco delivery tracking and SMS credit invoicing.</li>
+    <li><b>Business Systems</b> (Firebase, React, Supabase): auto-service ERP, travel billing records, and a restaurant ordering back office.</li>
+  </ul>
+  <p style="margin-top:3pt;font-size:9pt;color:#3C7FB4">Case studies, screenshots and a live demo: <a href="https://lionelsabaulan.cv/#portfolio"><b>lionelsabaulan.cv/#portfolio</b></a></p>
 </section>
 
 <section>
