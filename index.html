@@ -608,18 +608,20 @@ body::before{
             </article>
           </div>
           <div class="carousel-slide">
-            <div class="project-card">
-              <span class="project-tag">PERSONAL PROJECT</span>
-              <div class="w-12 h-12 rounded-xl bg-[#7CC4EC]/10 flex items-center justify-center mb-4">
-                <i class="fas fa-wallet gold-text text-lg"></i>
-              </div>
-              <h3 class="text-lg font-bold mb-2">Wealth Manager App</h3>
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=wealth-manager.webp','Wealth Manager App','Screenshot · sample data','cert','assets/portfolio/wealth-manager.webp')">
+                <img src="assets/portfolio/wealth-manager.webp" alt="Wealth Manager App screenshots" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">PERSONAL PROJECT · MOBILE APP</span>
+              <h3 class="text-lg font-bold mb-3">Wealth Manager App</h3>
               <ul class="psr">
-                <li><b>Problem</b><span>No private, simple way to see where the household budget stood.</span></li>
-                <li><b>Solution</b><span>Designed and built a budgeting app in Flutter and Firebase, with a dark-and-gold interface.</span></li>
-                <li class="psr-result"><b>Result</b><span>A rule-based financial health score shows the household&rsquo;s finances at a glance.</span></li>
+                <li><b>Problem</b><span>Our household money was spread across several bank cards and e-wallets, and loan and bill due dates were easy to miss.</span></li>
+                <li><b>Solution</b><span>Designed and built a Flutter + Firebase app: a card vault with balances, income, expense and transfer tracking, a payment-terms calendar for loans and bi-monthly bills, spending by category, and an overall summary.</span></li>
+                <li class="psr-result"><b>Result</b><span>A rule-based financial health score and monthly spending breakdown show where the household stands at a glance.</span></li>
               </ul>
-            </div>
+              <p class="project-tech">Flutter · Dart · Firebase (Auth, Firestore) · fl_chart</p>
+            </article>
           </div>
         </div>
       </section>
