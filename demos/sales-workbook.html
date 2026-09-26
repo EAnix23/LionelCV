@@ -367,7 +367,10 @@ document.getElementById('resetBtn').onclick = () => { orders = seedOrders(); sav
 
 let tt; function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2600); }
 
-show(0);
+// Deep link: ?tab=receipt / ?tab=inventory / ?tab=store ... opens that tab first
+const wanted = (new URLSearchParams(location.search).get('tab') || '').toLowerCase();
+const start = wanted ? TABS.findIndex((t) => t.name.toLowerCase().includes(wanted)) : 0;
+show(start > -1 ? start : 0);
 </script>
 </body>
 </html>

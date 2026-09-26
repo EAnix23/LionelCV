@@ -420,6 +420,40 @@ body{
         <div class="carousel-container reveal" id="portfolio-container">
           <div class="carousel-slide">
             <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=parcel-receipt-generator.webp','Parcel Receipt Generator','Screenshot · sample data','cert','assets/portfolio/parcel-receipt-generator.webp')">
+                <img src="assets/portfolio/parcel-receipt-generator.webp" alt="Parcel Receipt Generator screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">LOGISTICS AUTOMATION</span>
+              <h3 class="text-lg font-bold mb-3">Parcel Receipt Generator</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Every parcel receipt was typed by hand from the order sheet, and riders had no quick way to confirm a delivery or a return.</span></li>
+                <li><b>Solution</b><span>Built a Google Sheets receipt generator that turns each order in the main file into a print-ready purchase order (store, customer, product code, items, amount), with a barcode of the order number that riders scan with a phone on delivery or RTS, and delivery attempts tracked per receipt.</span></li>
+                <li class="psr-result"><b>Result</b><span>Together with the automated inventory, cut almost 50% of the team&rsquo;s manual operations work.</span></li>
+              </ul>
+              <p class="project-tech">Google Sheets · Formulas · Barcode fonts · Apps Script</p>
+              <a href="demos/sales-workbook.html?tab=receipt" class="project-demo"><i class="fas fa-table"></i> Try the interactive demo</a>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=inventory-tracker.webp','Automated Inventory Tracker','Screenshot · sample data','cert','assets/portfolio/inventory-tracker.webp')">
+                <img src="assets/portfolio/inventory-tracker.webp" alt="Automated Inventory Tracker screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">INVENTORY AUTOMATION</span>
+              <h3 class="text-lg font-bold mb-3">Automated Inventory Tracker</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Stock released and returned through five couriers was counted by hand, and shortages were only noticed once an item ran out.</span></li>
+                <li><b>Solution</b><span>Built an inventory workbook that pulls released and returned parcels per courier (LBC, J&amp;T, GoGo, NCR, Lazada) from the order records, keeps a daily running balance per product, and color-flags near-critical and critical stock.</span></li>
+                <li class="psr-result"><b>Result</b><span>Real-time stock per product with early reorder warnings. With the receipt generator, removed almost 50% of manual operations work.</span></li>
+              </ul>
+              <p class="project-tech">Google Sheets · QUERY / FILTER / ARRAYFORMULA · Conditional formatting</p>
+              <a href="demos/sales-workbook.html?tab=inventory" class="project-demo"><i class="fas fa-table"></i> Try the interactive demo</a>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
               <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=brand-pnl-dashboard.webp','Consolidated Brand P&L Dashboard','Screenshot · sample data','cert','assets/portfolio/brand-pnl-dashboard.webp')">
                 <img src="assets/portfolio/brand-pnl-dashboard.webp" alt="Consolidated Brand P&amp;L Dashboard screenshot" loading="lazy" width="1600" height="1000">
                 <span><i class="fas fa-expand mr-1"></i>VIEW</span>
@@ -540,8 +574,8 @@ body{
               <h3 class="text-lg font-bold mb-3">Sales Operations Workbook</h3>
               <ul class="psr">
                 <li><b>Problem</b><span>Orders from 20+ online stores and four sales agents went into one sheet, and courier lists, parcel receipts and stock counts were compiled by hand.</span></li>
-                <li><b>Solution</b><span>Built a Google Sheets workbook that auto-segregates the main file into per-courier tabs, computes sales per store and per agent, generates barcoded receipts that riders scan on delivery or RTS, and tracks inventory with critical-level alerts.</span></li>
-                <li class="psr-result"><b>Result</b><span>Courier lists, receipts and stock levels update automatically from a single order entry.</span></li>
+                <li><b>Solution</b><span>Built a Google Sheets workbook that auto-segregates the main file into per-courier tabs, and computes sales per store and per agent (single, promo and reseller orders, upsell rate), feeding the receipt generator and inventory tracker above.</span></li>
+                <li class="psr-result"><b>Result</b><span>One order entry updates every courier list and sales report automatically.</span></li>
               </ul>
               <p class="project-tech">Google Sheets · Formulas (QUERY, FILTER, ARRAYFORMULA) · Apps Script</p>
               <a href="demos/sales-workbook.html" class="project-demo"><i class="fas fa-table"></i> Try the interactive demo</a>
