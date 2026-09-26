@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Operations Workbook — Demo</title>
+<meta name="description" content="Interactive demo of a Google Sheets sales-operations workbook built by Lionel Sabaulan. All data is fictional.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsbarcode/3.11.6/JsBarcode.all.min.js"></script>
+<style>
+  :root { --line:#e2e3e3; --head:#f8f9fa; --ink:#1f1f1f; --muted:#5f6368; --blue:#0b57d0; --green:#188038; --sel:#d3e3fd; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body { font: 13px/1.35 Roboto, Arial, sans-serif; color: var(--ink); background: #f9fbfd; display: flex; flex-direction: column; }
+  button, select, input { font: inherit; }
+
+  /* Top chrome, Google-Sheets style */
+  .banner { background: #1f1f1f; color: #fff; padding: 8px 16px; font-size: 12.5px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .banner a { color: #f5c542; text-decoration: none; font-weight: 500; }
+  .banner b { color: #f5c542; }
+  .top { display: flex; align-items: center; gap: 12px; padding: 8px 16px 4px; background: #f9fbfd; }
+  .logo { width: 32px; height: 40px; border-radius: 4px; background: linear-gradient(#34a853, #188038); position: relative; flex: none; }
+  .logo::after { content: ""; position: absolute; inset: 12px 7px 9px; border: 2px solid #fff; border-radius: 1px; background: linear-gradient(#fff,#fff) 50% 0/2px 100% no-repeat, linear-gradient(#fff,#fff) 0 50%/100% 2px no-repeat; }
+  .title { font-size: 18px; }
+  .menu { display: flex; gap: 14px; color: #444; font-size: 13.5px; margin-top: 2px; flex-wrap: wrap; }
+  .toolbar { margin: 4px 16px 6px; background: #edf2fa; border-radius: 24px; padding: 6px 14px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .btn { border: 0; border-radius: 16px; padding: 6px 14px; cursor: pointer; background: #c2e7ff; color: #001d35; font-weight: 500; }
+  .btn.ghost { background: transparent; color: var(--muted); }
+  .btn.green { background: var(--green); color: #fff; }
+  .formula { display: flex; align-items: center; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: #fff; min-height: 30px; }
+  .formula .ref { width: 90px; padding: 0 10px; border-right: 1px solid var(--line); color: var(--muted); }
+  .formula .fx { padding: 0 10px; color: #999; font-style: italic; border-right: 1px solid var(--line); }
+  .formula .val { padding: 0 10px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+  /* Grid */
+  .sheet { flex: 1; overflow: auto; background: #fff; }
+  table.grid { border-collapse: collapse; min-width: 100%; }
+  .grid th, .grid td { border: 1px solid var(--line); padding: 4px 8px; white-space: nowrap; height: 24px; }
+  .grid thead th { position: sticky; top: 0; z-index: 2; background: var(--head); color: var(--muted); font-weight: 400; font-size: 11.5px; text-align: center; height: 22px; padding: 0 8px; }
+  .grid td.rn { position: sticky; left: 0; z-index: 1; background: var(--head); color: var(--muted); text-align: center; font-size: 11.5px; width: 46px; min-width: 46px; }
+  .grid thead th.corner { left: 0; z-index: 3; }
+  .grid td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .grid td.c { text-align: center; }
+  .grid tr.hdr td:not(.rn) { background: #111; color: #fff; font-weight: 700; text-align: center; text-transform: uppercase; font-size: 12px; }
+  .grid tr.pct td:not(.rn) { font-weight: 700; text-align: center; background: #fff; }
+  .grid tr.band td:not(.rn) { background: #f1f3f4; }
+  .grid tr.total td:not(.rn) { background: #7f1d1d; color: #fff; font-weight: 700; }
+  .grid tr.banner-row td:not(.rn) { background: #111; color: #f5c542; font-weight: 700; font-size: 14px; letter-spacing: .06em; }
+  .grid td.sel { outline: 2px solid var(--blue); outline-offset: -2px; background: #e8f0fe !important; }
+  .grid td.zero { color: #bbb; }
+  .st { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11.5px; font-weight: 500; }
+  .st.Delivered { background: #ceead6; color: #0d652d; } .st.InTransit { background: #fef7e0; color: #8a5a00; } .st.RTS { background: #fce8e6; color: #a50e0e; }
+  .grid select.status { border: 1px solid var(--line); border-radius: 4px; padding: 1px 4px; background: #fff; }
+  .warn td:not(.rn) { background: #f4c7c3 !important; } .crit td:not(.rn) { background: #e06666 !important; color: #fff; }
+
+  /* Tab strip */
+  .tabs { display: flex; align-items: stretch; background: #f9fbfd; border-top: 1px solid var(--line); overflow-x: auto; flex: none; }
+  .tabs .all { padding: 0 14px; display: grid; place-items: center; color: var(--muted); font-size: 18px; }
+  .tab { border: 0; background: transparent; padding: 10px 16px 8px; cursor: pointer; white-space: nowrap; color: #444; font-weight: 500; text-transform: uppercase; font-size: 12.5px; border-bottom: 4px solid var(--c, transparent); }
+  .tab.on { background: #e1e9f7; color: var(--blue); }
+
+  /* Receipt */
+  .receipt-wrap { padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .po { width: 560px; max-width: 100%; border: 1.5px solid #333; background: #fff; }
+  .po .r { display: flex; border-bottom: 1px solid #555; } .po .r > div { padding: 5px 8px; }
+  .po .brand { width: 48%; border-right: 1px solid #555; display: grid; place-items: center; font-weight: 800; letter-spacing: .18em; font-size: 20px; color: #333; min-height: 96px; }
+  .po .brand small { display: block; font-size: 9px; letter-spacing: .1em; font-weight: 500; text-align: center; }
+  .po .code { flex: 1; text-align: center; } .po .code h3 { margin: 2px 0 0; background: #ccc; font-size: 20px; }
+  .po .g { background: #ddd; } .po .k { width: 22%; } .po .v { flex: 1; text-align: center; }
+  .po .red { color: #c00; font-weight: 700; } .po .blue { color: #1a56c4; font-weight: 700; }
+  .po table { width: 100%; border-collapse: collapse; } .po table td, .po table th { border-bottom: 1px solid #999; padding: 5px 8px; text-align: center; }
+  .po .attempts { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; } .po .attempts div { border-left: 1px solid #555; padding: 5px 6px; text-align: center; font-size: 12px; }
+  .po .attempts div:first-child { border-left: 0; font-weight: 700; }
+  .scanhint { color: var(--muted); max-width: 560px; text-align: center; }
+
+  /* New-order dialog */
+  dialog { border: 0; border-radius: 12px; padding: 0; width: min(440px, 94vw); box-shadow: 0 12px 40px rgba(0,0,0,.25); }
+  dialog form { padding: 20px; display: grid; gap: 10px; }
+  dialog h3 { margin: 0 0 4px; font-weight: 500; }
+  dialog label { display: grid; gap: 4px; color: var(--muted); font-size: 12px; }
+  dialog input, dialog select { padding: 8px; border: 1px solid #ccc; border-radius: 6px; color: var(--ink); }
+  dialog .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  dialog .act { display: flex; justify-content: flex-end; gap: 8px; margin-top: 6px; }
+  .toast { position: fixed; left: 50%; bottom: 64px; transform: translateX(-50%); background: #323232; color: #fff; padding: 10px 16px; border-radius: 6px; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+
+  @media print { body > *:not(.sheet) { display: none !important; } .sheet { overflow: visible; } .scanhint, .receipt-wrap > .btn, .receipt-wrap select { display: none; } }
+  @media (max-width: 640px) { .menu { display: none; } .title { font-size: 15px; } .toolbar { border-radius: 12px; } }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <span><b>Demo</b> · All names, orders and figures are fictional. Recreated from a Google Sheets workbook I built for a retail client.</span>
+  <a href="../#portfolio">← Back to portfolio</a>
+</div>
+
+<div class="top">
+  <div class="logo" aria-hidden="true"></div>
+  <div>
+    <div class="title">SALES OPERATIONS WORKBOOK — NOVEMBER</div>
+    <div class="menu"><span>File</span><span>Edit</span><span>View</span><span>Insert</span><span>Format</span><span>Data</span><span>Tools</span><span>Extensions</span><span>Help</span></div>
+  </div>
+</div>
+
+<div class="toolbar">
+  <button class="btn green" id="newOrderBtn" type="button">+ New order</button>
+  <button class="btn ghost" id="resetBtn" type="button">Reset sample data</button>
+  <span style="color:var(--muted)">Try it: add an order or change a delivery status, then open the other tabs. Everything recalculates automatically.</span>
+</div>
+
+<div class="formula"><div class="ref" id="cellRef">A1</div><div class="fx">fx</div><div class="val" id="cellVal"></div></div>
+
+<main class="sheet" id="sheet"></main>
+
+<nav class="tabs" id="tabs"><div class="all">☰</div></nav>
+
+<dialog id="orderDialog">
+  <form method="dialog" id="orderForm">
+    <h3>New order</h3>
+    <div class="row2">
+      <label>Store<select name="store" id="fStore"></select></label>
+      <label>Platform<select name="platform"><option>FACEBOOK</option><option>SHOPIFY</option><option>LAZADA</option></select></label>
+    </div>
+    <label>Customer name<input name="customer" required placeholder="e.g. Juan Dela Cruz"></label>
+    <div class="row2">
+      <label>Product code<select name="code" id="fCode"></select></label>
+      <label>Courier<select name="courier" id="fCourier"></select></label>
+    </div>
+    <label>Agent (CSR)<select name="csr" id="fCsr"></select></label>
+    <div class="act"><button class="btn ghost" value="cancel" formnovalidate>Cancel</button><button class="btn green" value="ok">Add order</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast"></div>
+
+<script>
+// ---------- Sample data (fictional) ----------
+const STORES = ['STORE ALPHA', 'STORE BRAVO', 'STORE CASCADE', 'STORE DELTA', 'STORE EMBER', 'STORE FALCON'];
+const CSRS = ['AGENT A', 'AGENT B', 'AGENT C', 'AGENT D'];
+const COURIERS = [
+  { key: 'LBC', color: '#d93025' }, { key: 'NCR', color: '#1a73e8' }, { key: 'J&T', color: '#188038' },
+  { key: 'LAZADA', color: '#9334e6' }, { key: 'GOGO', color: '#e8710a' },
+];
+// What each product code ships (per order)
+const CODES = {
+  'SINGLE':   { price: 350,  items: { SERUM: 1 } },
+  'PROMO 2':  { price: 650,  items: { SERUM: 2, SOAP: 1 } },
+  'PROMO 3':  { price: 900,  items: { SERUM: 3, SOAP: 2 } },
+  'RESELLER': { price: 2800, items: { SERUM: 10, SOAP: 5 } },
+};
+const PRODUCTS = ['SERUM', 'SOAP'];
+const OPENING = { SERUM: 380, SOAP: 200 };          // starting stock for the month
+const WARN_AT = { SERUM: 300, SOAP: 170 }, CRIT_AT = { SERUM: 250, SOAP: 145 };
+const FIRST = ['Maria', 'Jose', 'Ana', 'Mark', 'Liza', 'Paolo', 'Grace', 'Ramon', 'Joy', 'Carlo', 'Bea', 'Nico'];
+const LAST = ['Santos', 'Reyes', 'Cruz', 'Bautista', 'Garcia', 'Mendoza', 'Torres', 'Flores', 'Ramos', 'Aquino'];
+const CITIES = ['Quezon City', 'Makati', 'Pasig', 'Cebu City', 'Davao City', 'Iloilo City', 'Baguio', 'Taguig'];
+
+function seedOrders() {
+  let s = 20;
+  const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const pick = (a) => a[Math.floor(rnd() * a.length)];
+  const codes = ['SINGLE', 'SINGLE', 'SINGLE', 'PROMO 2', 'PROMO 2', 'PROMO 3', 'RESELLER'];
+  const out = [];
+  for (let i = 0; i < 64; i++) {
+    const day = 1 + Math.floor(i / 4.3);
+    const store = pick(STORES), code = pick(codes);
+    const r = rnd();
+    out.push({
+      date: `2026-11-${String(day).padStart(2, '0')}`,
+      no: store.split(' ')[1].slice(0, 2) + (3000 + i),
+      store, platform: pick(['FACEBOOK', 'FACEBOOK', 'SHOPIFY', 'LAZADA']),
+      csr: pick(CSRS), customer: pick(FIRST) + ' ' + pick(LAST), city: pick(CITIES),
+      courier: pick(COURIERS).key, code, amount: CODES[code].price,
+      status: day > 12 ? 'In transit' : r < .12 ? 'RTS' : 'Delivered',
+    });
+  }
+  return out;
+}
+let orders;
+try { orders = JSON.parse(localStorage.getItem('workbook-orders')) || seedOrders(); } catch (e) { orders = seedOrders(); }
+const save = () => { try { localStorage.setItem('workbook-orders', JSON.stringify(orders)); } catch (e) {} };
+
+// ---------- Helpers ----------
+const peso = (n) => '₱' + n.toLocaleString('en-PH');
+const pct = (a, b) => (b ? (a / b * 100).toFixed(2) : '0.00') + '%';
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const cols = (n) => Array.from({ length: n }, (_, i) => String.fromCharCode(65 + i));
+const fmtDate = (d) => new Date(d + 'T00:00').toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+const stClass = (s) => s.replace(' ', '');
+
+// Build a grid table; rows = [{cls, cells:[{v, cls, raw}]}]
+function grid(ncols, rows) {
+  let h = '<table class="grid"><thead><tr><th class="corner"></th>' + cols(ncols).map((c) => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+  rows.forEach((r, i) => {
+    h += `<tr class="${r.cls || ''}"><td class="rn">${i + 1}</td>`;
+    r.cells.forEach((c) => {
+      const cell = typeof c === 'object' && c !== null ? c : { v: c };
+      const span = cell.span ? ` colspan="${cell.span}"` : '';
+      const isZero = cell.v === 0 || cell.v === '0';
+      h += `<td${span} class="${cell.cls || ''}${isZero ? ' zero' : ''}" data-raw="${esc(cell.raw ?? cell.v ?? '')}">${cell.html ?? esc(cell.v ?? '')}</td>`;
+    });
+    h += '</tr>';
+  });
+  return h + '</tbody></table>';
+}
+
+// ---------- Tabs ----------
+function tabOrders() {
+  const rows = [{ cls: 'banner-row', cells: [{ v: 'MAIN FILE — ALL ORDERS', span: 11 }] },
+    { cls: 'hdr', cells: ['Date', 'Order no', 'Store', 'Platform', 'CSR', 'Customer', 'City', 'Courier', 'Prod code', 'Amount', 'Status'] }];
+  orders.forEach((o, i) => rows.push({ cls: i % 2 ? 'band' : '', cells: [
+    fmtDate(o.date), { v: o.no, cls: 'c' }, o.store, o.platform, o.csr, o.customer, o.city, { v: o.courier, cls: 'c' }, { v: o.code, cls: 'c' },
+    { v: peso(o.amount), cls: 'num' },
+    { html: `<select class="status" data-i="${i}">${['Delivered', 'In transit', 'RTS'].map((s) => `<option${s === o.status ? ' selected' : ''}>${s}</option>`).join('')}</select>`, raw: o.status },
+  ] }));
+  return grid(11, rows);
+}
+
+function summaryBy(key, labels, title, extra) {
+  const codes = Object.keys(CODES);
+  const valid = orders.filter((o) => o.status !== 'RTS');
+  const totals = codes.map((c) => valid.filter((o) => o.code === c).length);
+  const all = valid.length;
+  const rows = [{ cls: 'banner-row', cells: [{ v: title, span: codes.length + 4 }] },
+    { cls: 'pct', cells: ['', '', ...totals.map((t) => pct(t, all)), '', ''] },
+    { cls: 'hdr', cells: [key === 'store' ? 'Store name' : 'CSR', 'Total orders', ...codes, 'Sales', extra] }];
+  const sum = Array(codes.length).fill(0); let tot = 0, sales = 0;
+  labels.forEach((l, i) => {
+    const mine = valid.filter((o) => o[key] === l);
+    const counts = codes.map((c) => mine.filter((o) => o.code === c).length);
+    const s = mine.reduce((a, o) => a + o.amount, 0);
+    counts.forEach((c, j) => (sum[j] += c)); tot += mine.length; sales += s;
+    const x = key === 'store'
+      ? pct(mine.length, all)
+      : pct(counts[1] + counts[2] + counts[3], mine.length);
+    rows.push({ cls: i % 2 ? 'band' : '', cells: [{ v: l, cls: 'c' }, { v: mine.length, cls: 'c' }, ...counts.map((c) => ({ v: c, cls: 'c' })), { v: peso(s), cls: 'num' }, { v: x, cls: 'c' }] });
+  });
+  rows.push({ cls: 'total', cells: [{ v: 'TOTAL', cls: 'c' }, { v: tot, cls: 'c' }, ...sum.map((c) => ({ v: c, cls: 'c' })), { v: peso(sales), cls: 'num' }, { v: key === 'store' ? '100.00%' : pct(sum[1] + sum[2] + sum[3], tot), cls: 'c' }] });
+  rows.push({ cells: [{ v: 'Returned (RTS) orders are excluded from all counts.', span: codes.length + 4, cls: 'zero' }] });
+  return grid(codes.length + 4, rows);
+}
+
+function tabCourier(c) {
+  const mine = orders.filter((o) => o.courier === c);
+  const count = (s) => mine.filter((o) => o.status === s).length;
+  const rows = [{ cls: 'banner-row', cells: [{ v: `${c} DELIVERIES — auto-segregated from MAIN FILE`, span: 8 }] },
+    { cls: 'hdr', cells: ['Total parcels', 'Delivered', 'In transit', 'RTS', 'COD to remit', '', '', ''] },
+    { cells: [{ v: mine.length, cls: 'c' }, { v: count('Delivered'), cls: 'c' }, { v: count('In transit'), cls: 'c' }, { v: count('RTS'), cls: 'c' },
+      { v: peso(mine.filter((o) => o.status === 'Delivered').reduce((a, o) => a + o.amount, 0)), cls: 'num' }, '', '', ''] },
+    { cells: ['', '', '', '', '', '', '', ''] },
+    { cls: 'hdr', cells: ['Date', 'Order no', 'Store', 'Customer', 'City', 'Prod code', 'Amount', 'Status'] }];
+  mine.forEach((o, i) => rows.push({ cls: i % 2 ? 'band' : '', cells: [fmtDate(o.date), { v: o.no, cls: 'c' }, o.store, o.customer, o.city, { v: o.code, cls: 'c' },
+    { v: peso(o.amount), cls: 'num' }, { html: `<span class="st ${stClass(o.status)}">${o.status}</span>`, raw: o.status }] }));
+  return grid(8, rows);
+}
+
+function tabInventory() {
+  const days = [...new Set(orders.map((o) => o.date))].sort();
+  const rows = [
+    { cls: 'banner-row', cells: [{ v: 'TOTAL INVENTORY — released vs. returned, running balance', span: 1 + PRODUCTS.length * 3 }] },
+    { cells: [{ v: '', cls: '' }, { html: '<span class="st" style="background:#f4c7c3">Near critical level</span> &nbsp; <span class="st" style="background:#e06666;color:#fff">Critical — order supply</span>', span: PRODUCTS.length * 3 }] },
+    { cls: 'hdr', cells: ['Date', ...PRODUCTS.flatMap((p) => [`${p} released`, `${p} returned`, `${p} on hand`])] },
+  ];
+  const bal = { ...OPENING };
+  days.forEach((d, i) => {
+    const today = orders.filter((o) => o.date === d);
+    let level = '';
+    const cells = [{ v: fmtDate(d), cls: 'c' }];
+    PRODUCTS.forEach((p) => {
+      const out = today.reduce((a, o) => a + (CODES[o.code].items[p] || 0), 0);
+      const back = today.filter((o) => o.status === 'RTS').reduce((a, o) => a + (CODES[o.code].items[p] || 0), 0);
+      bal[p] += back - out;
+      if (bal[p] <= CRIT_AT[p]) level = 'crit'; else if (bal[p] <= WARN_AT[p] && level !== 'crit') level = 'warn';
+      cells.push({ v: out, cls: 'c' }, { v: back, cls: 'c' }, { v: bal[p], cls: 'c' });
+    });
+    rows.push({ cls: level || (i % 2 ? 'band' : ''), cells });
+  });
+  return grid(1 + PRODUCTS.length * 3, rows);
+}
+
+function tabReceipt() {
+  const opts = orders.map((o, i) => `<option value="${i}">${o.no} — ${esc(o.customer)}</option>`).join('');
+  return `<div class="receipt-wrap">
+    <select id="rcptPick" style="padding:6px 10px;border-radius:6px;border:1px solid #ccc">${opts}</select>
+    <div class="po" id="po"></div>
+    <button class="btn" type="button" onclick="window.print()">Print receipt</button>
+    <p class="scanhint">Each receipt is generated from the order row and carries a scannable barcode of the order number, so riders and staff can scan the parcel with a phone to log a delivery attempt or an RTS.</p>
+  </div>`;
+}
+function renderReceipt(i) {
+  const o = orders[i]; const code = CODES[o.code];
+  const items = Object.entries(code.items).map(([p, q]) => `<tr><td>${q}</td><td>pcs</td><td>${p}</td></tr>`).join('');
+  document.getElementById('po').innerHTML = `
+    <div class="r"><div class="brand"><div>SAMPLE CO.<small>Sample Trading Co. · Metro Manila</small></div></div>
+      <div class="code"><h3>PURCHASE ORDER</h3><svg id="bc"></svg></div></div>
+    <div class="r g"><div class="k">Store:</div><div class="v">${esc(o.store)}</div><div class="k">Order no:</div><div class="v">${esc(o.no)}</div></div>
+    <div class="r"><div class="k">Name:</div><div class="v">${esc(o.customer)}</div><div class="k">Date:</div><div class="v">${fmtDate(o.date)}</div></div>
+    <div class="r g"><div class="k">City:</div><div class="v">${esc(o.city)}</div><div class="k red">PRODCODE:</div><div class="v blue">${esc(o.code)}</div></div>
+    <table><tr style="background:#eee"><th>QTY</th><th>Unit</th><th>Item description</th></tr>${items}<tr><td colspan="3" style="font-style:italic">*** nothing follows ***</td></tr></table>
+    <div class="r"><div class="k red">RELEASED BY:</div><div class="v blue">${esc(o.csr)}</div><div class="k">TOTAL:</div><div class="v"><b>${peso(o.amount)}</b></div></div>
+    <div class="r g"><div class="k">Courier:</div><div class="v">${esc(o.courier)}</div><div class="k">Status:</div><div class="v"><span class="st ${stClass(o.status)}">${o.status}</span></div></div>
+    <div class="attempts"><div>ATTEMPTS:</div><div>1ST</div><div>2ND</div><div>3RD</div></div>`;
+  if (window.JsBarcode) JsBarcode('#bc', o.no, { height: 42, width: 1.6, fontSize: 13, margin: 4 });
+}
+
+const TABS = [
+  { name: 'Main file', color: '#5f6368', render: tabOrders },
+  { name: 'Per store', color: '#111', render: () => summaryBy('store', STORES, 'SALES PER STORE — based on total orders', '% of orders') },
+  { name: 'Per agent (CSR)', color: '#b06000', render: () => summaryBy('csr', CSRS, 'SALES PER AGENT — upsell performance', 'Upsell rate') },
+  ...COURIERS.map((c) => ({ name: c.key + ' deliveries', color: c.color, render: () => tabCourier(c.key) })),
+  { name: 'Receipt', color: '#0b57d0', render: tabReceipt, after: () => { const s = document.getElementById('rcptPick'); s.onchange = () => renderReceipt(+s.value); renderReceipt(+s.value); } },
+  { name: 'Total inventory', color: '#188038', render: tabInventory },
+];
+let current = 0;
+
+function show(i) {
+  current = i;
+  const t = TABS[i];
+  document.getElementById('sheet').innerHTML = t.render();
+  document.querySelectorAll('.tab').forEach((b, j) => b.classList.toggle('on', j === i));
+  t.after && t.after();
+  document.getElementById('cellRef').textContent = 'A1';
+  document.getElementById('cellVal').textContent = '';
+}
+
+const tabsEl = document.getElementById('tabs');
+TABS.forEach((t, i) => {
+  const b = document.createElement('button');
+  b.className = 'tab'; b.type = 'button'; b.textContent = t.name; b.style.setProperty('--c', t.color);
+  b.onclick = () => show(i);
+  tabsEl.appendChild(b);
+});
+
+// Click a cell -> show its reference and value in the formula bar, like Sheets
+document.getElementById('sheet').addEventListener('click', (e) => {
+  const td = e.target.closest('td'); if (!td || td.classList.contains('rn')) return;
+  document.querySelectorAll('td.sel').forEach((x) => x.classList.remove('sel'));
+  td.classList.add('sel');
+  const tr = td.parentElement; const row = [...tr.parentElement.children].indexOf(tr) + 1;
+  let col = 0; for (let x = td.previousElementSibling; x && !x.classList.contains('rn'); x = x.previousElementSibling) col += +(x.getAttribute('colspan') || 1);
+  document.getElementById('cellRef').textContent = String.fromCharCode(65 + col) + row;
+  document.getElementById('cellVal').textContent = td.dataset.raw || '';
+});
+document.getElementById('sheet').addEventListener('change', (e) => {
+  if (!e.target.matches('select.status')) return;
+  orders[+e.target.dataset.i].status = e.target.value; save();
+  toast(`Status updated — per store, courier and inventory tabs recalculated`);
+});
+
+// New order
+const dlg = document.getElementById('orderDialog');
+const fill = (id, arr) => (document.getElementById(id).innerHTML = arr.map((x) => `<option>${x}</option>`).join(''));
+fill('fStore', STORES); fill('fCode', Object.keys(CODES)); fill('fCourier', COURIERS.map((c) => c.key)); fill('fCsr', CSRS);
+document.getElementById('newOrderBtn').onclick = () => { document.getElementById('orderForm').reset(); dlg.showModal(); };
+dlg.addEventListener('close', () => {
+  if (dlg.returnValue !== 'ok') return;
+  const f = Object.fromEntries(new FormData(document.getElementById('orderForm')));
+  const last = orders.reduce((a, o) => (o.date > a ? o.date : a), '2026-11-01');
+  const o = { date: last, no: f.store.split(' ')[1].slice(0, 2) + (3000 + orders.length), store: f.store, platform: f.platform, csr: f.csr,
+    customer: f.customer.trim() || 'Walk-in', city: 'Metro Manila', courier: f.courier, code: f.code, amount: CODES[f.code].price, status: 'In transit' };
+  orders.push(o); save(); show(current);
+  toast(`Order ${o.no} added → now in ${o.courier} deliveries, per store, per agent and inventory`);
+});
+document.getElementById('resetBtn').onclick = () => { orders = seedOrders(); save(); show(current); toast('Sample data reset'); };
+
+let tt; function toast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2600); }
+
+show(0);
+</script>
+</body>
+</html>

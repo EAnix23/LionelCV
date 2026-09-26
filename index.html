@@ -142,6 +142,14 @@ body{
 .psr li{display:grid;grid-template-columns:4.75rem 1fr;gap:.5rem;font-size:.85rem;line-height:1.5;color:#9ca3af;}
 .psr b{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);padding-top:.2rem;}
 .psr li.psr-result{color:#e5e7eb;}
+@media (max-width:640px){.psr li{grid-template-columns:1fr;gap:.1rem;}}
+.project-shot{display:block;width:calc(100% + 3.5rem);margin:-1.75rem -1.75rem 1.25rem;aspect-ratio:16/10;overflow:hidden;position:relative;border:0;padding:0;cursor:zoom-in;background:#111;border-bottom:1px solid var(--border-gold);}
+.project-shot img{width:100%;height:100%;object-fit:cover;object-position:top left;transition:transform .5s ease;}
+.project-card:hover .project-shot img{transform:scale(1.03);}
+.project-shot span{position:absolute;right:10px;bottom:10px;background:rgba(11,10,8,.82);color:var(--gold);font:600 10px 'JetBrains Mono',monospace;letter-spacing:.1em;padding:5px 10px;border-radius:14px;border:1px solid var(--border-gold);}
+.project-tech{margin:1.1rem 0 0;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#6b7280;letter-spacing:.04em;line-height:1.6;}
+.project-demo{display:inline-flex;align-items:center;gap:.5rem;margin-top:1rem;font-size:12px;font-weight:700;color:#0B0A08;background:var(--gold);padding:.55rem 1rem;border-radius:999px;transition:transform .2s;}
+.project-demo:hover{transform:translateY(-2px);}
 .project-tag{
   display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:0.12em;
   color:var(--gold);background:rgba(201,162,39,0.1);border:1px solid var(--border-gold);padding:4px 10px;border-radius:20px;margin-bottom:1rem;
@@ -399,7 +407,7 @@ body{
 
       <!-- Portfolio -->
       <section id="portfolio" class="mb-24">
-        <div class="flex items-center justify-between mb-10 reveal">
+        <div class="flex items-center justify-between mb-4 reveal">
           <div class="flex items-center gap-3">
             <i class="fas fa-images gold-text text-xl"></i>
             <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500 font-mono">Selected Work</h2>
@@ -408,7 +416,137 @@ body{
             <i class="fas fa-mouse-pointer text-[8px]"></i> SWIPE TO VIEW
           </div>
         </div>
+        <p class="text-gray-500 text-sm mb-10 reveal">Systems I built for the teams I support. Screenshots use sample data, and client names are withheld.</p>
         <div class="carousel-container reveal" id="portfolio-container">
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=brand-pnl-dashboard.webp','Consolidated Brand P&L Dashboard','Screenshot · sample data','cert','assets/portfolio/brand-pnl-dashboard.webp')">
+                <img src="assets/portfolio/brand-pnl-dashboard.webp" alt="Consolidated Brand P&amp;L Dashboard screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">FINANCIAL REPORTING</span>
+              <h3 class="text-lg font-bold mb-3">Consolidated Brand P&amp;L Dashboard</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Monthly P&amp;L for many brands sat in separate spreadsheets, so management had no single view of net income.</span></li>
+                <li><b>Solution</b><span>Built a Google Apps Script web app that pulls the P&amp;L, vendor, gross-gaming and profit-allocation sheets into one dashboard with filters, charts, brand drill-downs and a login.</span></li>
+                <li class="psr-result"><b>Result</b><span>YTD net income per brand on one screen, synced live from the source sheets.</span></li>
+              </ul>
+              <p class="project-tech">Google Apps Script · Google Sheets · Chart.js</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=domain-compliance-tracker.webp','Domain Compliance & ISP Block Tracker','Screenshot · sample data','cert','assets/portfolio/domain-compliance-tracker.webp')">
+                <img src="assets/portfolio/domain-compliance-tracker.webp" alt="Domain Compliance &amp; ISP Block Tracker screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">SECURITY &amp; COMPLIANCE</span>
+              <h3 class="text-lg font-bold mb-3">Domain Compliance &amp; ISP Block Tracker</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>A reporting team was tracking thousands of flagged domains across four ISPs (PLDT, Globe, Converge, DITO) in spreadsheets.</span></li>
+                <li><b>Solution</b><span>Built a web app on Cloudflare Workers and D1: per-brand domain inventory, ISP block status, a post-verification module, an AI executive summary, PDF exports, and a KPI module for the team (geo-tagged time-in, leaves, schedules, scoreboard).</span></li>
+                <li class="psr-result"><b>Result</b><span>One live dashboard for 24,000+ verification records, with role-based access and 20-second auto-refresh.</span></li>
+              </ul>
+              <p class="project-tech">Cloudflare Workers · D1 (SQL) · Google Apps Script · JavaScript</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=domain-expiry-bot.webp','Domain Expiry & DNS Telegram Bot','Screenshot · sample data','cert','assets/portfolio/domain-expiry-bot.webp')">
+                <img src="assets/portfolio/domain-expiry-bot.webp" alt="Domain Expiry &amp; DNS Telegram Bot screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">AUTOMATION BOT</span>
+              <h3 class="text-lg font-bold mb-3">Domain Expiry &amp; DNS Telegram Bot</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Domains were spread across seven registrar accounts. Renewals slipped, and nameserver changes were done one domain at a time.</span></li>
+                <li><b>Solution</b><span>Wrote a Python Telegram bot on the GoDaddy API: daily 15-day expiry alerts grouped by brand and account with renew links, on-demand reports, auto brand detection, and an admin-only bulk nameserver change with verification and a confirm step.</span></li>
+                <li class="psr-result"><b>Result</b><span>Expiries flagged two weeks ahead, and bulk DNS changes done from a phone in three steps, with every change logged.</span></li>
+              </ul>
+              <p class="project-tech">Python · Telegram Bot API · GoDaddy API · Linux (systemd)</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=sms-platform.webp','SMS Broadcast & Lead Management Platform','Screenshot · sample data','cert','assets/portfolio/sms-platform.webp')">
+                <img src="assets/portfolio/sms-platform.webp" alt="SMS Broadcast &amp; Lead Management Platform screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">SAAS PLATFORM</span>
+              <h3 class="text-lg font-bold mb-3">SMS Broadcast &amp; Lead Management Platform</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>SMS campaigns, branch credit top-ups and telemarketing leads were handled in separate tools, with no view of delivery success.</span></li>
+                <li><b>Solution</b><span>Built a multi-branch Laravel + Filament platform: scheduled broadcasts over SMPP/CPaaS gateways, delivery tracking per telco, SMS credit requests with invoices and VAT, a lead lifecycle and telemarketing queue, accounting, CSV import/export and 2FA.</span></li>
+                <li class="psr-result"><b>Result</b><span>Each branch sees its own campaigns, credits and success rate, while the mother account oversees everything.</span></li>
+              </ul>
+              <p class="project-tech">Laravel · Filament · PostgreSQL · Queues</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=auto-service-erp.webp','Auto Service Management System','Screenshot · sample data','cert','assets/portfolio/auto-service-erp.webp')">
+                <img src="assets/portfolio/auto-service-erp.webp" alt="Auto Service Management System screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">BUSINESS SYSTEM</span>
+              <h3 class="text-lg font-bold mb-3">Auto Service Management System</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>An auto repair shop ran job orders, estimates, supplier payables and cash flow on paper and in chat threads.</span></li>
+                <li><b>Solution</b><span>Built a Firebase web app covering job order → inspection → estimate → job card → invoice, plus statements of account, suppliers and payables, cash flow, capital and shareholders, user permissions, and activity logs with a restore (recycle-bin) function.</span></li>
+                <li class="psr-result"><b>Result</b><span>An executive dashboard shows operations aging, payables aging, turnaround time and what is ready to invoice.</span></li>
+              </ul>
+              <p class="project-tech">Firebase (Firestore, Cloud Functions, Hosting) · JavaScript · Google Drive API</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=travel-records.webp','Travel Agency Records & Billing','Screenshot · sample data','cert','assets/portfolio/travel-records.webp')">
+                <img src="assets/portfolio/travel-records.webp" alt="Travel Agency Records &amp; Billing screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">FINANCE OPERATIONS</span>
+              <h3 class="text-lg font-bold mb-3">Travel Agency Records &amp; Billing</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Visa, tour, airfare and hotel invoices split between two billing teams were reconciled by hand.</span></li>
+                <li><b>Solution</b><span>Built a Firebase records system: invoice records with bulk status updates and CSV upload, per-team payment tracking and statements of account, bank balances with discrepancy detection, a portal credit ledger and top-up history.</span></li>
+                <li class="psr-result"><b>Result</b><span>A live dashboard of invoiced vs. paid, pending and partial payments, and outstanding balance per team.</span></li>
+              </ul>
+              <p class="project-tech">Firebase (Firestore, Auth) · JavaScript · Google Drive API</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=restaurant-admin.webp','Restaurant Ordering & Back Office','Screenshot · sample data','cert','assets/portfolio/restaurant-admin.webp')">
+                <img src="assets/portfolio/restaurant-admin.webp" alt="Restaurant Ordering &amp; Back Office screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">FULL-STACK WEB APP</span>
+              <h3 class="text-lg font-bold mb-3">Restaurant Ordering &amp; Back Office</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Orders arrived through chat with no central tracking, and there was no inventory or finance view.</span></li>
+                <li><b>Solution</b><span>Built a React storefront and admin: menu manager, cart and order tracking, scheduled orders, live chat with canned replies, inventory and recipes, P&amp;L, cash flow and dividend declarations.</span></li>
+                <li class="psr-result"><b>Result</b><span>Revenue, orders by status and top sellers on one dashboard, updated in real time.</span></li>
+              </ul>
+              <p class="project-tech">React · Supabase (Postgres, Realtime) · Tailwind CSS · Vercel</p>
+            </article>
+          </div>
+          <div class="carousel-slide">
+            <article class="project-card">
+              <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=sales-ops-workbook.webp','Sales Operations Workbook','Screenshot · sample data','cert','assets/portfolio/sales-ops-workbook.webp')">
+                <img src="assets/portfolio/sales-ops-workbook.webp" alt="Sales Operations Workbook screenshot" loading="lazy" width="1600" height="1000">
+                <span><i class="fas fa-expand mr-1"></i>VIEW</span>
+              </button>
+              <span class="project-tag">GOOGLE SHEETS AUTOMATION</span>
+              <h3 class="text-lg font-bold mb-3">Sales Operations Workbook</h3>
+              <ul class="psr">
+                <li><b>Problem</b><span>Orders from 20+ online stores and four sales agents went into one sheet, and courier lists, parcel receipts and stock counts were compiled by hand.</span></li>
+                <li><b>Solution</b><span>Built a Google Sheets workbook that auto-segregates the main file into per-courier tabs, computes sales per store and per agent, generates barcoded receipts that riders scan on delivery or RTS, and tracks inventory with critical-level alerts.</span></li>
+                <li class="psr-result"><b>Result</b><span>Courier lists, receipts and stock levels update automatically from a single order entry.</span></li>
+              </ul>
+              <p class="project-tech">Google Sheets · Formulas (QUERY, FILTER, ARRAYFORMULA) · Apps Script</p>
+              <a href="demos/sales-workbook.html" class="project-demo"><i class="fas fa-table"></i> Try the interactive demo</a>
+            </article>
+          </div>
           <div class="carousel-slide">
             <div class="project-card">
               <span class="project-tag">PERSONAL PROJECT</span>
@@ -420,34 +558,6 @@ body{
                 <li><b>Problem</b><span>No private, simple way to see where the household budget stood.</span></li>
                 <li><b>Solution</b><span>Designed and built a budgeting app in Flutter and Firebase, with a dark-and-gold interface.</span></li>
                 <li class="psr-result"><b>Result</b><span>A rule-based financial health score shows the household&rsquo;s finances at a glance.</span></li>
-              </ul>
-            </div>
-          </div>
-          <div class="carousel-slide">
-            <div class="project-card">
-              <span class="project-tag">PROCESS AUTOMATION</span>
-              <div class="w-12 h-12 rounded-xl bg-[#C9A227]/10 flex items-center justify-center mb-4">
-                <i class="fas fa-project-diagram gold-text text-lg"></i>
-              </div>
-              <h3 class="text-lg font-bold mb-2">Executive Workflow System</h3>
-              <ul class="psr">
-                <li><b>Problem</b><span>Manual, spreadsheet-based HR, accounting, and operations reporting was slowing departments down.</span></li>
-                <li><b>Solution</b><span>Built custom Google Apps Script automation on top of the existing Google Sheets.</span></li>
-                <li class="psr-result"><b>Result</b><span>40% less manual data entry for the same reports.</span></li>
-              </ul>
-            </div>
-          </div>
-          <div class="carousel-slide">
-            <div class="project-card">
-              <span class="project-tag">SYSTEMS & SECURITY</span>
-              <div class="w-12 h-12 rounded-xl bg-[#C9A227]/10 flex items-center justify-center mb-4">
-                <i class="fas fa-server gold-text text-lg"></i>
-              </div>
-              <h3 class="text-lg font-bold mb-2">IT Infrastructure Audit</h3>
-              <ul class="psr">
-                <li><b>Problem</b><span>Domains, hosting, and third-party integrations (live chat, SMS OTP, payment gateways) were spread across many providers.</span></li>
-                <li><b>Solution</b><span>Reviewed each service&rsquo;s configuration and access end to end.</span></li>
-                <li class="psr-result"><b>Result</b><span>Gaps closed before they became incidents.</span></li>
               </ul>
             </div>
           </div>
