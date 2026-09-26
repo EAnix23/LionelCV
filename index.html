@@ -576,6 +576,17 @@ body{
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           <div class="info-card badge-card reveal">
+            <div class="flex items-start gap-4">
+              <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-user-shield gold-text text-lg"></i></div>
+              <div class="flex-1">
+                <h3 class="text-md font-bold text-white mb-1">Microsoft Security, Compliance, and Identity Fundamentals</h3>
+                <p class="text-xs text-gray-500 mb-3 font-mono">TESDA Online Program · Sep 2026</p>
+                <button type="button" class="verify-link" onclick="openModal('certificates/tesda-microsoft-sc900.html','Microsoft Security, Compliance, and Identity Fundamentals','Certificate','cert','certificates/tesda-microsoft-sc900.pdf')"><i class="fas fa-arrow-up-right-from-square mr-1"></i>View Certificate</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card badge-card reveal">
             <span class="badge-ribbon">VERIFIED</span>
             <div class="flex items-start gap-4">
               <div class="w-12 h-12 bg-[#C9A227]/10 rounded-xl flex items-center justify-center shrink-0"><i class="fas fa-award gold-text text-lg"></i></div>
@@ -843,4 +854,4 @@ function closeModal() {
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
-</html>s
+</html>
