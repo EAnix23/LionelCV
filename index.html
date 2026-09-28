@@ -148,6 +148,20 @@ body::before{
 
 .carousel-container{position:relative;width:100%;overflow-x:auto;scroll-snap-type:x mandatory;display:flex;gap:1.5rem;padding-bottom:20px;-webkit-overflow-scrolling:touch;}
 .carousel-slide{flex:0 0 85%;scroll-snap-align:start;}
+.carousel-wrap{position:relative;}
+.carousel-wrap::after{content:"";position:absolute;top:0;right:-1px;bottom:20px;width:72px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--obsidian));opacity:1;transition:opacity .3s;}
+.carousel-wrap.at-end::after{opacity:0;}
+.carousel-container{cursor:grab;outline:none;}
+.carousel-container.dragging{cursor:grabbing;scroll-snap-type:none;user-select:none;}
+.carousel-container.dragging *{pointer-events:none;}
+.carousel-nav{display:flex;align-items:center;gap:.5rem;}
+.carousel-count{font-size:11px;color:var(--warm-gray);letter-spacing:.1em;margin-right:.25rem;min-width:3.2rem;text-align:right;}
+.carousel-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--border-gold);background:var(--card-solid);color:var(--gold);
+  display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .25s;}
+.carousel-btn:hover:not(:disabled){background:var(--gold);color:#06121F;border-color:var(--gold);transform:translateY(-1px);}
+.carousel-btn:disabled{opacity:.3;cursor:default;}
+.carousel-btn:focus-visible,.carousel-container:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
 @media (min-width:768px){.carousel-slide{flex:0 0 calc(45% - 0.75rem);}}
 .project-card{
   background:var(--card-solid);border:1px solid var(--border-gold);border-radius:20px;padding:1.75rem;
@@ -441,12 +455,15 @@ body::before{
             <i class="fas fa-images gold-text text-xl"></i>
             <h2 class="text-sm font-bold uppercase tracking-[0.2em] text-gray-500 font-mono">Selected Work</h2>
           </div>
-          <div class="text-[10px] font-bold text-gray-600 flex items-center gap-2 font-mono">
-            <i class="fas fa-mouse-pointer text-[8px]"></i> SWIPE TO VIEW
+          <div class="carousel-nav" aria-label="Browse projects">
+            <span class="carousel-count font-mono" id="pfCount" aria-live="polite">1 / 1</span>
+            <button type="button" class="carousel-btn" id="pfPrev" aria-label="Previous project"><i class="fas fa-arrow-left"></i></button>
+            <button type="button" class="carousel-btn" id="pfNext" aria-label="Next project"><i class="fas fa-arrow-right"></i></button>
           </div>
         </div>
         <p class="text-gray-500 text-sm mb-10 reveal">Systems I built for the teams I support. Screenshots use sample data, and client names are withheld.</p>
-        <div class="carousel-container reveal" id="portfolio-container">
+        <div class="carousel-wrap reveal" id="portfolio-wrap">
+        <div class="carousel-container" id="portfolio-container" tabindex="0" aria-label="Projects. Use the arrow keys or drag to browse.">
           <div class="carousel-slide">
             <article class="project-card">
               <button type="button" class="project-shot" onclick="openModal('assets/portfolio/view.html?img=parcel-receipt-generator.webp','Parcel Receipt Generator','Screenshot · sample data','cert','assets/portfolio/parcel-receipt-generator.webp')">
@@ -626,6 +643,7 @@ body::before{
               <p class="project-tech">Flutter · Dart · Firebase (Auth, Firestore) · fl_chart</p>
             </article>
           </div>
+        </div>
         </div>
       </section>
 
@@ -1074,6 +1092,61 @@ function sendContact(e) {
   const body = [f.message.value.trim(), '', f.name.value.trim(), f.email.value.trim()].join('\n');
   window.location.href = 'mailto:hello@lionelsabaulan.cv?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
 }
+
+// Portfolio carousel: arrows, counter, keyboard and mouse drag (touch keeps native swipe)
+(function () {
+  const track = document.getElementById('portfolio-container');
+  const wrap = document.getElementById('portfolio-wrap');
+  if (!track) return;
+  const prev = document.getElementById('pfPrev'), next = document.getElementById('pfNext'), count = document.getElementById('pfCount');
+  const slides = () => [...track.querySelectorAll('.carousel-slide')];
+  const step = () => { const s = slides(); return s.length > 1 ? s[1].offsetLeft - s[0].offsetLeft : track.clientWidth; };
+  const current = () => Math.round(track.scrollLeft / step());
+
+  function update() {
+    const max = track.scrollWidth - track.clientWidth - 2;
+    const total = slides().length;
+    const i = track.scrollLeft >= max ? total - Math.max(1, Math.round(track.clientWidth / step())) : current();
+    count.textContent = `${Math.min(i + 1, total)} / ${total}`;
+    prev.disabled = track.scrollLeft <= 2;
+    next.disabled = track.scrollLeft >= max;
+    wrap.classList.toggle('at-end', track.scrollLeft >= max);
+  }
+  const go = (dir) => track.scrollBy({ left: dir * step(), behavior: 'smooth' });
+  prev.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+  track.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+  });
+  track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+  window.addEventListener('resize', update);
+
+  // Mouse drag (pointerType "mouse" only, so phones keep their native swipe)
+  let down = false, moved = false, startX = 0, startLeft = 0;
+  track.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'mouse' || e.button !== 0) return;
+    down = true; moved = false; startX = e.clientX; startLeft = track.scrollLeft;
+  });
+  window.addEventListener('pointermove', (e) => {
+    if (!down) return;
+    const dx = e.clientX - startX;
+    if (!moved && Math.abs(dx) > 5) { moved = true; track.classList.add('dragging'); }
+    if (moved) track.scrollLeft = startLeft - dx;
+  });
+  window.addEventListener('pointerup', () => {
+    if (!down) return;
+    down = false;
+    if (moved) {
+      track.classList.remove('dragging');
+      // snap to the nearest card after a drag
+      track.scrollTo({ left: Math.round(track.scrollLeft / step()) * step(), behavior: 'smooth' });
+    }
+  });
+  // A drag should not also count as a click on a screenshot
+  track.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } }, true);
+  update();
+})();
 
 // Certificate / badge popup modal
 function openModal(src, title, sub, type, openHref) {
