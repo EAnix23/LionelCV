@@ -1106,7 +1106,7 @@ function sendContact(e) {
   function update() {
     const max = track.scrollWidth - track.clientWidth - 2;
     const total = slides().length;
-    const i = track.scrollLeft >= max ? total - Math.max(1, Math.round(track.clientWidth / step())) : current();
+    const i = track.scrollLeft >= max ? total - 1 : current();
     count.textContent = `${Math.min(i + 1, total)} / ${total}`;
     prev.disabled = track.scrollLeft <= 2;
     next.disabled = track.scrollLeft >= max;
